@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="21" />
+    <bytecodeTargetLevel target="11">
+      <module name="Movie_App.api" target="21" />
+      <module name="Movie_App.app" target="21" />
+      <module name="Movie_App.core.data" target="21" />
+      <module name="Movie_App.core.designsystem" target="21" />
+      <module name="Movie_App.core.navigation" target="21" />
+      <module name="Movie_App.core.ui" target="21" />
+      <module name="Movie_App.feature.catalogue.api" target="21" />
+      <module name="Movie_App.feature.catalogue.impl" target="21" />
+      <module name="Movie_App.feature.details.api" target="21" />
+      <module name="Movie_App.feature.details.impl" target="21" />
+      <module name="Movie_App.feature.favorites.api" target="21" />
+      <module name="Movie_App.feature.favorites.impl" target="21" />
+      <module name="Movie_App.feature.splash.api" target="21" />
+      <module name="Movie_App.feature.splash.impl" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

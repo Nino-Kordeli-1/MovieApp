@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -11,17 +12,47 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
-}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
     }
 }
 
-rootProject.name = "Movie App"
+rootProject.name = "MovieApp"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
- 
+
+//Core
+include(":core:model")
+include(":core:domain")
+include(":core:common")
+include(":core:data")
+include(":core:navigation")
+include(":core:ui")
+include(":core:designsystem")
+
+//Feature
+include(":feature:catalogue")
+include(":feature:catalogue:api")
+include(":feature:catalogue:impl")
+
+include(":feature:details")
+include(":feature:details:api")
+include(":feature:details:impl")
+
+include(":feature:favorites")
+include(":feature:favorites:impl")
+include(":feature:favorites:api")
+
+include(":feature:splash")
+include(":feature:splash:impl")
+include(":feature:splash:api")
