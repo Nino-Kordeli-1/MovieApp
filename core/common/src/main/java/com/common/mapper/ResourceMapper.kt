@@ -1,6 +1,6 @@
-package com.example.common.mapper
+package com.common.mapper
 
-import com.example.common.resource.Resource
+import com.common.resource.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

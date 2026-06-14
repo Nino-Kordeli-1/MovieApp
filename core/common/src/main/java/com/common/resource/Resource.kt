@@ -1,4 +1,4 @@
-package com.example.common.resource
+package com.common.resource
 
 sealed class Resource<out D : Any> {
     data class Success<out D : Any>(val data: D) : Resource<D>()
