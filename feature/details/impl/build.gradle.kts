@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.movieapp.android.feature.impl)
-    alias(libs.plugins.movieapp.android.library.compose)
+    alias(libs.plugins.movieapp.android.compose)
 }
 
 android {
-    namespace = "com.example.impl.details"
+    namespace = "com.movieapp.impl.details"
     testOptions.unitTests.isIncludeAndroidResources = true
 }
 

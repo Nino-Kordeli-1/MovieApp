@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.core.splash"
+    namespace = "com.movieapp.core.splash"
 }
 
 dependencies {

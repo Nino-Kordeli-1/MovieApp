@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.core.details"
+    namespace = "com.movieapp.core.details"
 }
 
 dependencies {

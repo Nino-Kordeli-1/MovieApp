@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.core.favorites"
+    namespace = "com.movieapp.core.favorites"
 }
 
 dependencies {

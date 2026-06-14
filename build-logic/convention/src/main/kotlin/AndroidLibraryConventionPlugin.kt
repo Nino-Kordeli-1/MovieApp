@@ -1,8 +1,7 @@
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.example.movieapp.configureKotlinAndroid
-import com.example.movieapp.disableUnnecessaryAndroidTests
-import com.example.movieapp.libs
+import com.movieapp.configureKotlinAndroid
+import com.movieapp.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -23,10 +22,12 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                     path.split("""\W""".toRegex()).drop(1).distinct().joinToString(separator = "_")
                         .lowercase() + "_"
             }
-            extensions.configure<LibraryAndroidComponentsExtension>{
-                disableUnnecessaryAndroidTests(target)
+            extensions.configure<LibraryAndroidComponentsExtension> {
+                beforeVariants {
+                    it.androidTest.enable = false
+                }
             }
-            dependencies{
+            dependencies {
                 "androidTestImplementation"(libs.findLibrary("kotlin.test").get())
                 "testImplementation"(libs.findLibrary("kotlin.test").get())
                 "testImplementation"(libs.findLibrary("junit").get())

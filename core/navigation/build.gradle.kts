@@ -1,28 +1,17 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.movieapp.android.library)
+    alias(libs.plugins.movieapp.koin.library)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "com.example.navigation"
-    compileSdk = 36
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
+    namespace = "com.movieapp.navigation"
 
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.junit)
+    api(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.savedstate.compose)
+    implementation(libs.androidx.lifecycle.viewModel.navigation3)
 }

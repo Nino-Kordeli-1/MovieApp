@@ -1,4 +1,4 @@
-package com.example.movieapp
+package com.movieapp
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
@@ -17,29 +17,24 @@ internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension
 ) {
     commonExtension.apply {
-        compileSdk = 36
+        compileSdk = 37
 
         defaultConfig.apply {
             minSdk = 26
         }
 
         compileOptions.apply {
-          sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
-            isCoreLibraryDesugaringEnabled = true
+          sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
         }
     }
 
     configureKotlin<KotlinAndroidProjectExtension>()
-
-    dependencies {
-        "coreLibraryDesugaring"(libs.findLibrary("android.desugarJdkLibs").get())
-    }
 }
 internal fun Project.configureKotlinJvm() {
     extensions.configure<JavaPluginExtension> {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     configureKotlin<KotlinJvmProjectExtension>()
@@ -53,7 +48,7 @@ private inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() =
         is KotlinJvmProjectExtension -> compilerOptions
         else -> TODO("Unsupported project extension $this ${T::class}")
     }.apply {
-        jvmTarget = JvmTarget.JVM_11
+        jvmTarget = JvmTarget.JVM_17
         allWarningsAsErrors = warningsAsErrors
         freeCompilerArgs.add(
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
