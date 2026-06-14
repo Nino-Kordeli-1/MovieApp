@@ -44,19 +44,9 @@ gradlePlugin {
             implementationClass = "AndroidLibraryConventionPlugin"
         }
 
-        register("androidApplicationCompose") {
-            id = "movieapp.android.application.compose"
-            implementationClass = "AndroidApplicationComposeConventionPlugin"
-        }
-
         register("root") {
             id = "movieapp.root"
             implementationClass = "RootPlugin"
-        }
-
-        register("androidLibraryCompose") {
-            id = "movieapp.android.library.compose"
-            implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
 
         register("androidFeatureImpl") {
@@ -82,6 +72,10 @@ gradlePlugin {
         register("testingLibrary") {
             id = "movieapp.test.library"
             implementationClass = "TestingLibraryConventionPlugin"
+        }
+        register("androidCompose") {
+            id = "movieapp.android.compose"
+            implementationClass = "AndroidComposeConventionPlugin"
         }
     }
 }
