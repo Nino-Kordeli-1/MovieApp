@@ -69,10 +69,6 @@ gradlePlugin {
             implementationClass = "JvmLibraryConventionPlugin"
         }
 
-        register("testingLibrary") {
-            id = "movieapp.test.library"
-            implementationClass = "TestingLibraryConventionPlugin"
-        }
         register("androidCompose") {
             id = "movieapp.android.compose"
             implementationClass = "AndroidComposeConventionPlugin"

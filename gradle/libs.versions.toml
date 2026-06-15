@@ -105,10 +105,7 @@ movieapp-android-application = { id = "movieapp.android.application" }
 movieapp-android-library = { id = "movieapp.android.library" }
 movieapp-android-feature = { id = "movieapp.android.feature" }
 movieapp-kotlin-library = { id = "movieapp.kotlin.library" }
-movieapp-android-library-compose = { id = "movieapp.android.library.compose" }
 movieapp-koin-library = { id = "movieapp.koin.library" }
 movieapp-jvm-library = { id = "movieapp.jvm.library" }
-movieapp-android-application-compose = { id = "movieapp.android.application.compose" }
-movieapp-test-library = { id = "movieapp.test.library" }
 movieapp-root = { id = "movieapp.root" }
 movieapp-android-compose = { id = "movieapp.android.compose" }
