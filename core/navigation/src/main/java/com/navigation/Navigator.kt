@@ -1,0 +1,109 @@
+package com.navigation
+
+import androidx.navigation3.runtime.NavKey
+
+/**
+ * Handles navigation events (forward and back) by updating the navigation state.
+ *
+ * @param state - The navigation state that will be updated in response to navigation events.
+ */
+class Navigator(val state: NavigationState) {
+
+    /**
+     * Navigate to a navigation key
+     *
+     * @param key - the navigation key to navigate to.
+     */
+    fun navigate(key: NavKey) {
+        when (key) {
+            state.currentTopLevelKey -> clearSubStack()
+            in state.topLevelKeys -> goToTopLevel(key)
+            else -> goToKey(key)
+        }
+    }
+
+    /**
+     * Go back to the previous navigation key.
+     */
+    fun goBack() {
+        when (state.currentKey) {
+            state.startKey -> error("You cannot go back from the start route")
+            state.currentTopLevelKey -> {
+                // We're at the base of the current sub stack, go back to the previous top level
+                // stack.
+                state.topLevelStack.removeLastOrNull()
+            }
+            else -> state.currentSubStack.removeLastOrNull()
+        }
+    }
+
+    /**
+     * Go to a non top level key.
+     */
+    private fun goToKey(key: NavKey) {
+        state.currentSubStack.apply {
+            // Remove it if it's already in the stack so it's added at the end.
+            remove(key)
+            add(key)
+        }
+    }
+
+    /**
+     * Go to a top level stack.
+     */
+    private fun goToTopLevel(key: NavKey) {
+        state.topLevelStack.apply {
+            if (key == state.startKey) {
+                // This is the start key. Clear the stack so it's added as the only key.
+                clear()
+            } else {
+                // Remove it if it's already in the stack so it's added at the end.
+                remove(key)
+            }
+            add(key)
+        }
+    }
+
+    /**
+     * Clearing all but the root key in the current sub stack.
+     */
+    private fun clearSubStack() {
+        state.currentSubStack.run {
+            if (size > 1) subList(1, size).clear()
+        }
+    }
+
+    fun navigateAndClearStack(key: NavKey) {
+        val destinationSubStack = state.subStacks[key]
+            ?: error("Sub stack for $key does not exist")
+
+        // 1. Prepare destination
+        destinationSubStack.clear()
+        destinationSubStack.add(key)
+
+        // 2. Reset OTHER substacks to their own key (not clear them)
+        state.subStacks
+            .filterKeys { it != key }
+            .forEach { (subKey, subStack) ->
+                subStack.clear()
+                subStack.add(subKey)  // <-- reset to their own key instead of leaving empty
+            }
+
+        // 3. Replace top-level history last
+        state.topLevelStack.add(key)
+        state.topLevelStack.removeAll { it != key }
+    }
+
+
+    /**
+     * Replace the current screen with a new key.
+     * Removes the current key from the sub stack and navigates to the new one.
+     */
+    fun replace(key: NavKey) {
+        state.currentSubStack.apply {
+            remove(state.currentKey)
+            remove(key)
+            add(key)
+        }
+    }
+}

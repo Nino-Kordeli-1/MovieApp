@@ -15,13 +15,7 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
+        google()
         mavenCentral()
     }
 }
@@ -37,7 +31,6 @@ include(":core:domain")
 include(":core:common")
 include(":core:data")
 include(":core:navigation")
-include(":core:ui")
 include(":core:designsystem")
 
 //Feature
@@ -56,3 +49,4 @@ include(":feature:favorites:api")
 include(":feature:splash")
 include(":feature:splash:impl")
 include(":feature:splash:api")
+include(":core:ui")

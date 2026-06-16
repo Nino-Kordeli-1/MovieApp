@@ -1,4 +1,10 @@
 package com.api
 
-object CatalogueNavKey {
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
+
+@Serializable
+data object CatalogueNavKey : NavKey {
+    @Serializable
+    data object FavoritesNavKey: NavKey
 }

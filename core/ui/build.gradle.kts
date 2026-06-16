@@ -1,28 +1,18 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.movieapp.android.library)
+    alias(libs.plugins.movieapp.android.compose)
 }
 
 android {
     namespace = "com.movieapp.ui"
-    compileSdk = 37
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.junit)
+    api(projects.core.designsystem)
+    api(projects.core.model)
+
+    implementation(libs.coil)
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.compose.material3)
 }
