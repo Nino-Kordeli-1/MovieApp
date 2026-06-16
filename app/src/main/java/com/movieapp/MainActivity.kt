@@ -92,7 +92,6 @@ private fun BottomBarContent(navigationState: NavigationState, navigator: Naviga
     val currentDestination = when (currentKey) {
         is CatalogueNavKey -> BottomBarDestinations.Catalogue
         is FavoritesNavKey -> BottomBarDestinations.Favorites
-        is DetailsNavKey -> return
         else -> return
     }
 
