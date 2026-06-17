@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -17,21 +16,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.api.CatalogueNavKey
-import com.api.navigation.DetailsNavKey
 import com.api.navigation.FavoritesNavKey
 import com.api.navigation.SplashNavKey
-import com.ui.components.bottom_bar.BottomBarDestinations
-import com.ui.snackbar.SnackbarController
+import com.designsystem.theme.MovieAppTheme
 import com.impl.navigation.catalogueEntry
 import com.impl.navigation.detailsEntry
 import com.impl.navigation.favoritesEntry
 import com.impl.navigation.splashEntry
-import com.movieapp.ui.theme.MovieAppTheme
 import com.navigation.NavigationState
 import com.navigation.Navigator
 import com.navigation.rememberNavigationState
 import com.navigation.toEntries
+import com.ui.components.bottom_bar.BottomBarDestinations
 import com.ui.components.bottom_bar.NavigationBar
+import com.ui.snackbar.SnackbarController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
