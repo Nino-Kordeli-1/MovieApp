@@ -1,17 +1,17 @@
 package com.common.mapper
 
-import com.common.resource.Resource
+import com.common.resource.NetworkResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-suspend fun <Dto : Any, Domain : Any> Flow<Resource<Dto>>.asResource(
+suspend fun <Dto : Any, Domain : Any> Flow<NetworkResult<Dto>>.asResource(
     onSuccess: suspend (Dto) -> Domain,
-): Flow<Resource<Domain>> {
+): Flow<NetworkResult<Domain>> {
     return this.map {
         when (it) {
-            is Resource.Error<*> -> TODO()
-            is Resource.Loading<*> -> TODO()
-            is Resource.Success<*> -> TODO()
+            is NetworkResult.Error<*> -> TODO()
+            is NetworkResult.Loading<*> -> TODO()
+            is NetworkResult.Success<*> -> TODO()
         }
     }
 }
