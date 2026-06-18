@@ -19,14 +19,14 @@ android {
 }
 
 dependencies {
-    implementation(projects.movieApp.feature.catalogue.api)
-    implementation(projects.movieApp.feature.catalogue.impl)
-    implementation(projects.movieApp.feature.splash.api)
-    implementation(projects.movieApp.feature.splash.impl)
-    implementation(projects.movieApp.feature.favorites.api)
-    implementation(projects.movieApp.feature.favorites.impl)
-    implementation(projects.movieApp.feature.details.api)
-    implementation(projects.movieApp.feature.details.impl)
+    implementation(projects.feature.catalogue.api)
+    implementation(projects.feature.catalogue.impl)
+    implementation(projects.feature.splash.api)
+    implementation(projects.feature.splash.impl)
+    implementation(projects.feature.favorites.api)
+    implementation(projects.feature.favorites.impl)
+    implementation(projects.feature.details.api)
+    implementation(projects.feature.details.impl)
     // Core modules
     implementation(projects.core.common)
     implementation(projects.core.ui)
