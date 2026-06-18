@@ -5,6 +5,4 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data object CatalogueNavKey : NavKey {
-    @Serializable
-    data object FavoritesNavKey: NavKey
 }
