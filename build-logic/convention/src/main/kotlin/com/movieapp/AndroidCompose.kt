@@ -27,7 +27,17 @@ internal fun Project.configureAndroidCompose(
 
         add(
             "implementation",
+            libs.findLibrary("androidx-navigation-compose").get()
+        )
+
+        add(
+            "implementation",
             libs.findLibrary("androidx-compose-material3").get()
+        )
+
+        add(
+            "implementation",
+            libs.findLibrary("androidx-compose-runtime").get()
         )
 
         add(

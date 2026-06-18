@@ -22,6 +22,7 @@ class AndroidFeatureImplConventionPlugin : Plugin<Project> {
                 "implementation"(libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
                 "implementation"(libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
                 "implementation"(libs.findLibrary("androidx.navigation3.runtime").get())
+                "implementation"(libs.findLibrary("androidx-lifecycle-viewModel-navigation3").get())
                 "implementation"(libs.findLibrary("androidx.tracing.ktx").get())
                 "implementation"(libs.findLibrary("koin-android").get())
                 "implementation"(libs.findLibrary("koin-compose").get())

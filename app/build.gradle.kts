@@ -37,14 +37,9 @@ dependencies {
     // AndroidX + Compose
     implementation(libs.androidx.activity.compose)
     implementation(libs.material)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.navigation3.ui)
-    implementation(libs.androidx.navigation3.runtime)
-    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtimeCompose)
-    implementation(projects.core.navigation)
 
     //Serialization
     implementation(libs.kotlinx.serialization.json)
