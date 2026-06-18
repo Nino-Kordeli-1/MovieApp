@@ -91,7 +91,7 @@ class Navigator(val state: NavigationState) {
 
         // 3. Replace top-level history last
         state.topLevelStack.add(key)
-        state.topLevelStack.removeAll { it != key }
+        state.topLevelStack.clear()
     }
 
 
