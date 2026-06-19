@@ -23,10 +23,11 @@ fun rememberNavigationState(
     startKey: NavKey,
     topLevelKeys: Set<NavKey>,
 ): NavigationState {
+    val allTopLevelKeys = topLevelKeys + startKey
     val topLevelStack = rememberNavBackStack(startKey)
-    val subStacks = topLevelKeys.associateWith { key -> rememberNavBackStack(key) }
+    val subStacks = allTopLevelKeys.associateWith { key -> rememberNavBackStack(key) }
 
-    return remember(startKey, topLevelKeys) {
+    return remember(startKey, allTopLevelKeys) {
         NavigationState(
             startKey = startKey,
             topLevelStack = topLevelStack,

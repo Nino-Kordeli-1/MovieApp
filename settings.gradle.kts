@@ -32,6 +32,7 @@ include(":core:common")
 include(":core:data")
 include(":core:navigation")
 include(":core:designsystem")
+include(":core:ui")
 
 //Feature
 include(":feature:catalogue")
@@ -49,4 +50,3 @@ include(":feature:favorites:api")
 include(":feature:splash")
 include(":feature:splash:impl")
 include(":feature:splash:api")
-include(":core:ui")

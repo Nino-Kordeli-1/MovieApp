@@ -7,10 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation3.runtime.entryProvider
@@ -29,7 +27,6 @@ import com.navigation.rememberNavigationState
 import com.navigation.toEntries
 import com.ui.components.bottom_bar.BottomBarDestinations
 import com.ui.components.bottom_bar.NavigationBar
-import com.ui.snackbar.SnackbarController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,20 +43,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun AppNavigation() {
     val navigationState = rememberNavigationState(
-        startKey = CatalogueNavKey,
+        startKey = SplashNavKey,
         topLevelKeys = setOf(
             FavoritesNavKey,
-            CatalogueNavKey,
-            SplashNavKey
+            CatalogueNavKey
         )
     )
 
     val navigator = remember(navigationState) { Navigator(navigationState) }
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
-    val snackbarController = remember(snackbarHostState, scope) {
-        SnackbarController(snackbarHostState, scope)
-    }
 
     val entryProvider = entryProvider {
         splashEntry(navigator)
