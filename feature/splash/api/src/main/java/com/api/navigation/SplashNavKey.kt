@@ -1,8 +1,8 @@
-package com.api
+package com.api.navigation
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-data object CatalogueNavKey : NavKey {
+data object SplashNavKey : NavKey{
 }

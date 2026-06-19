@@ -19,6 +19,14 @@ android {
 }
 
 dependencies {
+    implementation(projects.feature.catalogue.api)
+    implementation(projects.feature.catalogue.impl)
+    implementation(projects.feature.splash.api)
+    implementation(projects.feature.splash.impl)
+    implementation(projects.feature.favorites.api)
+    implementation(projects.feature.favorites.impl)
+    implementation(projects.feature.details.api)
+    implementation(projects.feature.details.impl)
     // Core modules
     implementation(projects.core.common)
     implementation(projects.core.ui)
@@ -29,8 +37,6 @@ dependencies {
     // AndroidX + Compose
     implementation(libs.androidx.activity.compose)
     implementation(libs.material)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtimeCompose)

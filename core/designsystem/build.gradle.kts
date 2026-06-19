@@ -1,20 +1,10 @@
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.movieapp.android.library)
+    alias(libs.plugins.movieapp.android.compose)
 }
 
 android {
     namespace = "com.movieapp.designsystem"
-    compileSdk = 37
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
 
 }
 

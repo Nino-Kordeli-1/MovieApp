@@ -7,13 +7,38 @@ import org.gradle.kotlin.dsl.dependencies
 internal fun Project.configureAndroidCompose(
     commonExtension: CommonExtension
 ) {
-    //commonExtension.buildFeatures.compose = true
+    commonExtension.buildFeatures.compose = true
 
     dependencies {
         val bom = libs.findLibrary("androidx-compose-bom").get()
 
         add("implementation", platform(bom))
         add("androidTestImplementation", platform(bom))
+
+        add(
+            "implementation",
+            libs.findLibrary("androidx-compose-ui").get()
+        )
+
+        add(
+            "implementation",
+            libs.findLibrary("androidx-compose-foundation").get()
+        )
+
+        add(
+            "implementation",
+            libs.findLibrary("androidx-navigation-compose").get()
+        )
+
+        add(
+            "implementation",
+            libs.findLibrary("androidx-compose-material3").get()
+        )
+
+        add(
+            "implementation",
+            libs.findLibrary("androidx-compose-runtime").get()
+        )
 
         add(
             "implementation",
