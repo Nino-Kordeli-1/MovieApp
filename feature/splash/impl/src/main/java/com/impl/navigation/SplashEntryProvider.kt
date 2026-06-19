@@ -8,8 +8,6 @@ import com.navigation.Navigator
 
 fun EntryProviderScope<NavKey>.splashEntry(navigator: Navigator) {
     entry<SplashNavKey> {
-        SplashScreen() {
-            navigator.navigateAndClearStack(it)
-        }
+        SplashScreen()
     }
 }
