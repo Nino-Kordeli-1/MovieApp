@@ -1,6 +1,6 @@
 package com.domain.model
 
-data class Movie(
+data class MovieResponse(
     val id: Int,
     val popularity: Double,
     val backdropPath: String,
@@ -10,5 +10,5 @@ data class Movie(
     val posterPath: String,
     val releaseDate: String,
     val title: String,
-    val voteAverage: Double,
+    val voteAverage: Double
 )
