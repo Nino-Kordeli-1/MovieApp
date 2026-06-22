@@ -16,7 +16,7 @@ retrofit = "3.0.0"
 composeBom = "2026.02.01"
 navigation3 = "1.1.2"
 appcompat = "1.7.0"
-kotlinxSerialization = "1.10.0"
+kotlinxSerialization = "1.11.0"
 retrofitKotlinxSerializationConverter = "1.0.0"
 material = "1.12.0"
 navigationCompose = "2.9.0"
@@ -29,6 +29,7 @@ coil = "2.7.0"
 
 [libraries]
 # AndroidX core
+retrofit-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationConverter" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 androidx-tracing-ktx = { group = "androidx.tracing", name = "tracing-ktx", version.ref = "androidxTracing" }
 koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin" }
