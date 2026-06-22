@@ -10,7 +10,7 @@ interface SearchAndGenreApi {
     @GET("search/movie")
     suspend fun searchMovies(
         @Query("query") query: String,
-        @Query("page") page: Int = 1
+        @Query("page") page: Int
     ): Response<MovieResponseDto>
 
     @GET("genre./movie/list")
@@ -19,6 +19,6 @@ interface SearchAndGenreApi {
     @GET("discover/movie")
     suspend fun discoverByGenre(
         @Query("with_genres") genreId: Int,
-        @Query("page") page: Int = 1
+        @Query("page") page: Int
     ): Response<MovieResponseDto>
 }

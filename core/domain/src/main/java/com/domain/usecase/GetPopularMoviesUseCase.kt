@@ -7,7 +7,7 @@ import com.domain.repository.MovieRepository
 class GetPopularMoviesUseCase(
     private val repository: MovieRepository
 ) {
-    suspend operator fun invoke(page: Int = 1): NetworkResult<List<Movie>> {
+    suspend operator fun invoke(page: Int): NetworkResult<List<Movie>> {
         return repository.getMovies(page)
     }
 }

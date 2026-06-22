@@ -8,6 +8,6 @@ import retrofit2.http.Query
 interface PopularMovieApi {
     @GET("movie/popular")
     suspend fun getPopularMovies(
-        @Query("page") page: Int = 1,
+        @Query("page") page: Int
     ): Response<MovieResponseDto>
 }
