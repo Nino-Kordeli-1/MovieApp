@@ -22,6 +22,11 @@ internal fun Project.configureAndroidCompose(
 
         add(
             "implementation",
+            libs.findLibrary("androidx-compose-ui-text").get()
+        )
+
+        add(
+            "implementation",
             libs.findLibrary("androidx-compose-foundation").get()
         )
 

@@ -16,11 +16,11 @@ import androidx.navigation3.ui.NavDisplay
 import com.api.CatalogueNavKey
 import com.api.navigation.FavoritesNavKey
 import com.api.navigation.SplashNavKey
+import com.designsystem.theme.MovieAppTheme
 import com.impl.navigation.catalogueEntry
 import com.impl.navigation.detailsEntry
 import com.impl.navigation.favoritesEntry
 import com.impl.navigation.splashEntry
-import com.movieapp.ui.theme.MovieAppTheme
 import com.navigation.NavigationState
 import com.navigation.Navigator
 import com.navigation.rememberNavigationState
@@ -46,7 +46,7 @@ private fun AppNavigation() {
         startKey = SplashNavKey,
         topLevelKeys = setOf(
             FavoritesNavKey,
-            CatalogueNavKey,
+            CatalogueNavKey
         )
     )
 
