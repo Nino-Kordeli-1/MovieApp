@@ -2,12 +2,12 @@ package com.data.mapper
 
 import com.data.dto.movie.MovieDto
 import com.data.dto.movie.MovieResponseDto
-import com.domain.model.Movie
+import com.domain.model.MovieResponse
 
 fun MovieResponseDto.toDomain() = results.map { it.toDomain() }
 
-fun MovieDto.toDomain(): Movie {
-    return Movie(
+fun MovieDto.toDomain(): MovieResponse {
+    return MovieResponse(
         backdropPath = backdropPath.orEmpty(),
         genreIds = genreIds,
         originalTitle = originalTitle,
