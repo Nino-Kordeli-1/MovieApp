@@ -30,8 +30,6 @@ val networkModule = module {
             .build()
     }
 
-
-
     single {
         Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/3/")
