@@ -1,22 +1,21 @@
 package com.data.mapper
 
 import com.data.dto.movie.MovieDto
-import com.data.dto.movie.MovieResponseDto
 import com.domain.model.MovieResponse
 
-fun MovieResponseDto.toDomain() = results.map { it.toDomain() }
-
-fun MovieDto.toDomain(): MovieResponse {
-    return MovieResponse(
-        backdropPath = backdropPath.orEmpty(),
-        genreIds = genreIds,
-        originalTitle = originalTitle,
-        overview = overview,
-        posterPath = posterPath.orEmpty(),
-        releaseDate = releaseDate,
-        title = title,
-        voteAverage = voteAverage,
-        id = id,
-        popularity = popularity
-    )
+class MovieMapper : BaseMapper<MovieDto, MovieResponse> {
+    override fun map(from: MovieDto): MovieResponse {
+        return MovieResponse(
+            backdropPath = from.backdropPath.orEmpty(),
+            genreIds = from.genreIds,
+            originalTitle = from.originalTitle,
+            overview = from.overview,
+            posterPath = from.posterPath.orEmpty(),
+            releaseDate = from.releaseDate,
+            title = from.title,
+            voteAverage = from.voteAverage,
+            id = from.id,
+            popularity = from.popularity
+        )
+    }
 }
