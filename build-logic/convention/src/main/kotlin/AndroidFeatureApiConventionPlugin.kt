@@ -5,11 +5,11 @@ import org.gradle.kotlin.dsl.dependencies
 
 class AndroidFeatureApiConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        with(target){
+        with(target) {
             apply(plugin = "movieapp.android.library")
             apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
-            dependencies{
+            dependencies {
                 "api"(project(":core:navigation"))
             }
         }
