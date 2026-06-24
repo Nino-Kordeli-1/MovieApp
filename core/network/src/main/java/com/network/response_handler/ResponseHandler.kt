@@ -11,44 +11,42 @@ import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import kotlin.time.Duration.Companion.milliseconds
 
-class ResponseHandler {
-    fun <T : Any> apiCall(
-        call: suspend () -> Response<T>
-    ): Flow<NetworkResult<T>> = flow {
-        emit(NetworkResult.Loading)
-        try {
-            val response = withTimeout(15_000.milliseconds) {
-                call()
-            }
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    emit(NetworkResult.Success(body))
-                } else {
-                    emit(NetworkResult.Error("Empty response body"))
-                }
-            } else {
-                emit(
-                    NetworkResult.Error(
-                        "HTTP ${response.code()}: ${response.message()}"
-                    )
-                )
-            }
-        } catch (e: Exception) {
-            emit(
-                NetworkResult.Error(
-                    errorMessage = handleException(e),
-                    throwable = e
-                )
-            )
+fun <T : Any> apiCall(
+    call: suspend () -> Response<T>
+): Flow<NetworkResult<T>> = flow {
+    emit(NetworkResult.Loading)
+    try {
+        val response = withTimeout(15_000.milliseconds) { call() }
+        emit(response.toNetworkResult())
+    } catch (e: Exception) {
+        emit(NetworkResult.Error(errorMessage = handleException(e), throwable = e))
+    }
+}
+
+private fun <T : Any> Response<T>.toNetworkResult(): NetworkResult<T> {
+    if (isSuccessful) {
+        val body = body()
+        return if (body != null) {
+            NetworkResult.Success(body)
+        } else {
+            NetworkResult.Error("Empty response body")
         }
     }
 
-    private fun handleException(e: Throwable): String = when (e) {
-        is HttpException -> "HTTP error: ${e.code()} ${e.response()?.message()}"
-        is SocketTimeoutException -> "Connection timeout. Please check your network connection."
-        is UnknownHostException -> "No internet connection. Please check your network settings."
-        is IOException -> "Network error: IO Exception occurred."
-        else -> "Unknown error occurred: ${e.message}"
+    return when (code()) {
+        401 -> NetworkResult.Error("Unauthorized 401")
+        403 -> NetworkResult.Error("Forbidden - to access to this resource")
+        404 -> NetworkResult.Error("Not Found")
+        in 400..499 -> NetworkResult.Error("Client error: ${code()}")
+        in 500..599 -> NetworkResult.Error("Server error ${code()}")
+        else -> NetworkResult.Error("Unexpected HTTP ${code()} : ${message()}")
     }
+}
+
+private fun handleException(e: Throwable): String = when (e) {
+    is HttpException -> "HTTP error: ${e.code()} ${e.response()?.message()}"
+    is SocketTimeoutException -> "Connection timeout. Please check your network connection."
+    is UnknownHostException -> "No internet connection. Please check your network settings."
+    is IOException -> "Network error: IO Exception occurred."
+    else -> "Unknown error occurred: ${e.message}"
 }

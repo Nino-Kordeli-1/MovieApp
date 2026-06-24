@@ -1,8 +1,11 @@
 package com.domain.repository
 
 import com.common.resource.NetworkResult
-import com.domain.model.Movie
+import com.domain.model.MovieResponse
+import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
-    suspend fun getMovies(page: Int = 1): NetworkResult<List<Movie>>
+    fun getMovies(
+        page: Int
+    ): Flow<NetworkResult<List<MovieResponse>>>
 }

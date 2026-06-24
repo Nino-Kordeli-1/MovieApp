@@ -1,26 +1,22 @@
 package com.data.repository
 
+import com.common.mapper.asResource
 import com.common.resource.NetworkResult
-import com.data.mapper.toDomain
-import com.data.remote.PopularMovieApi
-import com.domain.model.Movie
+import com.data.datasource.MovieDatasource
+import com.data.mapper.MovieMapper
+import com.domain.model.MovieResponse
 import com.domain.repository.MovieRepository
+import com.network.response_handler.apiCall
+import kotlinx.coroutines.flow.Flow
 
 class MovieRepositoryImpl(
-    private val api: PopularMovieApi
+    private val dataSource: MovieDatasource,
+    private val movieMapper: MovieMapper
 ) : MovieRepository {
-
-    override suspend fun getMovies(page: Int): NetworkResult<List<Movie>> {
-        return try {
-            val response = api.getPopularMovies(page)
-            if (response.isSuccessful) {
-                val movies = response.body()?.results?.map { it.toDomain() } ?: emptyList()
-                NetworkResult.Success(movies)
-            } else {
-                NetworkResult.Error("Failed to load movies: ${response.code()}")
+    override fun getMovies(page: Int): Flow<NetworkResult<List<MovieResponse>>> {
+        return apiCall { dataSource.getPopularMovies(page) }
+            .asResource { dto ->
+                dto.results.map(movieMapper::map)
             }
-        } catch (e: Exception) {
-            NetworkResult.Error(e.message ?: "Unknown error", e)
-        }
     }
 }
