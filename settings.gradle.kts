@@ -36,9 +36,9 @@ include(":core:ui")
 include(":core:network")
 
 //Feature
-include(":feature:catalogue")
-include(":feature:catalogue:api")
-include(":feature:catalogue:impl")
+include(":feature:home")
+include(":feature:home:api")
+include(":feature:home:impl")
 
 include(":feature:details")
 include(":feature:details:api")
