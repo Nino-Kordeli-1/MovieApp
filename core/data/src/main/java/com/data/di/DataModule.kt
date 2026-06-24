@@ -6,6 +6,9 @@ import org.koin.dsl.module
 
 val dataModule = module {
     single<MovieRepository> {
-        MovieRepositoryImpl(api = get())
+        MovieRepositoryImpl(
+            dataSource = get(),
+            movieMapper = get()
+        )
     }
 }
