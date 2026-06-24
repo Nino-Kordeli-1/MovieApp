@@ -1,7 +1,6 @@
-package com.data.di
+package com.network.di
 
-import com.data.remote.PopularMovieApi
-import com.movieapp.data.BuildConfig
+import com.network.interceptor.ApiInterceptor
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -26,19 +25,12 @@ val networkModule = module {
 
     single {
         OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val request = chain.request().newBuilder()
-                    .addHeader(
-                        "Authorization",
-                        "Bearer ${BuildConfig.TMDB_TOKEN}"
-                    )
-                    .addHeader("accept", "application/json")
-                    .build()
-                chain.proceed(request)
-            }
+            .addInterceptor(get<ApiInterceptor>())
             .addInterceptor(get<HttpLoggingInterceptor>())
             .build()
     }
+
+
 
     single {
         Retrofit.Builder()
