@@ -33,6 +33,7 @@ include(":core:data")
 include(":core:navigation")
 include(":core:designsystem")
 include(":core:ui")
+include(":core:network")
 
 //Feature
 include(":feature:catalogue")
