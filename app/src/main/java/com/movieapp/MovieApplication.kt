@@ -5,6 +5,7 @@ import com.data.di.apiModule
 import com.data.di.homeModule
 import com.data.di.dataModule
 import com.data.di.dataSourceModule
+import com.data.di.mapperModule
 import com.data.di.repositoryModule
 import com.domain.di.module.domainModule
 import com.impl.screen.splash.module.splashModule
@@ -26,7 +27,8 @@ class MovieApplication : Application() {
                 networkModule,
                 apiModule,
                 repositoryModule,
-                dataSourceModule
+                dataSourceModule,
+                mapperModule
             )
         }
     }

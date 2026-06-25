@@ -17,6 +17,8 @@ val networkModule = module {
         }
     }
 
+    single { ApiInterceptor() }
+
     single {
         HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
