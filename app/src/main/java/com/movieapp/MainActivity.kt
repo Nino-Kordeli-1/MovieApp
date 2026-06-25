@@ -13,11 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import com.api.CatalogueNavKey
+import com.api.HomeNavKey
 import com.api.navigation.FavoritesNavKey
 import com.api.navigation.SplashNavKey
 import com.designsystem.theme.MovieAppTheme
-import com.impl.navigation.catalogueEntry
+import com.impl.navigation.homeEntry
 import com.impl.navigation.detailsEntry
 import com.impl.navigation.favoritesEntry
 import com.impl.navigation.splashEntry
@@ -46,7 +46,7 @@ private fun AppNavigation() {
         startKey = SplashNavKey,
         topLevelKeys = setOf(
             FavoritesNavKey,
-            CatalogueNavKey
+            HomeNavKey
         )
     )
 
@@ -55,7 +55,7 @@ private fun AppNavigation() {
     val entryProvider = entryProvider {
         splashEntry(navigator)
         detailsEntry(navigator)
-        catalogueEntry(navigator)
+        homeEntry(navigator)
         favoritesEntry(navigator)
     }
 
@@ -79,7 +79,7 @@ private fun BottomBarContent(navigationState: NavigationState, navigator: Naviga
     val currentKey = navigationState.currentKey
 
     val currentDestination = when (currentKey) {
-        is CatalogueNavKey -> BottomBarDestinations.Catalogue
+        is HomeNavKey -> BottomBarDestinations.Home
         is FavoritesNavKey -> BottomBarDestinations.Favorites
         else -> return
     }
@@ -88,7 +88,7 @@ private fun BottomBarContent(navigationState: NavigationState, navigator: Naviga
         currentDestination = currentDestination,
         navigator = { destination ->
             when (destination) {
-                BottomBarDestinations.Catalogue -> navigator.navigate(CatalogueNavKey)
+                BottomBarDestinations.Home -> navigator.navigate(HomeNavKey)
                 BottomBarDestinations.Favorites -> navigator.navigate(FavoritesNavKey)
             }
         }

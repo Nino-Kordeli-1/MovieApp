@@ -17,6 +17,8 @@ val networkModule = module {
         }
     }
 
+    single { ApiInterceptor() }
+
     single {
         HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -29,8 +31,6 @@ val networkModule = module {
             .addInterceptor(get<HttpLoggingInterceptor>())
             .build()
     }
-
-
 
     single {
         Retrofit.Builder()

@@ -1,13 +1,14 @@
 package com.domain.usecase
 
 import com.common.resource.NetworkResult
-import com.domain.model.Movie
+import com.domain.model.MovieResponse
 import com.domain.repository.MovieRepository
+import kotlinx.coroutines.flow.Flow
 
 class GetPopularMoviesUseCase(
     private val repository: MovieRepository
 ) {
-    suspend operator fun invoke(page: Int): NetworkResult<List<Movie>> {
+    operator fun invoke(page: Int): Flow<NetworkResult<List<MovieResponse>>> {
         return repository.getMovies(page)
     }
 }
