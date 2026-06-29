@@ -1,4 +1,4 @@
-package com.common.mapper
+package com.network.mapper
 
 import com.common.resource.NetworkResult
 import kotlinx.coroutines.flow.Flow
