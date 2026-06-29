@@ -18,7 +18,7 @@ abstract class BaseViewModel<State, Event, SideEffect>(
     private val _sideEffect = MutableSharedFlow<SideEffect>()
     val sideEffect = _sideEffect.asSharedFlow()
 
-    abstract fun onEvent(event: Event)
+    open fun onEvent(event: Event) {}
 
     protected fun updateState(update: (State) -> State) {
         _state.value = update(_state.value)
