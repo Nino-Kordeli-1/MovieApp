@@ -21,7 +21,7 @@ abstract class BaseViewModel<State, Event, SideEffect>(
     abstract fun onEvent(event: Event)
 
     protected fun updateState(update: (State) -> State) {
-        _state.value
+        _state.value = update(_state.value)
     }
 
     protected fun emitSideEffect(sideEffect: SideEffect) {
