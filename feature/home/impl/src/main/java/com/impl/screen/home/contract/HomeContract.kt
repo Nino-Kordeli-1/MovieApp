@@ -1,17 +1,18 @@
 package com.impl.screen.home.contract
 
 import com.domain.model.GenreResponse
-import com.domain.model.MovieResponse
+import com.impl.screen.home.model.MovieUiModel
 
 data class HomeUiState(
     val genreList: List<GenreResponse> = emptyList(),
-    val movieList: List<MovieResponse> = emptyList(),
+    val movieList: List<MovieUiModel> = emptyList(),
     val isLoading: Boolean = false,
     val hasMorePages: Boolean = true,
     val currentPage: Int = 1,
     val selectedGenre: Int? = null,
     val error: String? = null,
-    val searchQuery: String = ""
+    val searchQuery: String = "",
+    val isGenreListVisible: Boolean = false
 )
 
 sealed interface HomeUiEvent {
@@ -20,6 +21,7 @@ sealed interface HomeUiEvent {
     data class FavoriteClicked(val movieId: Int) : HomeUiEvent
     data class MovieClicked(val movieId: Int) : HomeUiEvent
     data object LoadNextPage : HomeUiEvent
+    data object ToggleGenreFilter : HomeUiEvent
 }
 
 sealed interface HomeUiSideEffect {
