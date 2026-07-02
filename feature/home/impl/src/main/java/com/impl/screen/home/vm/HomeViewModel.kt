@@ -2,20 +2,21 @@ package com.impl.screen.home.vm
 
 import androidx.lifecycle.viewModelScope
 import com.common.resource.NetworkResult
+import com.domain.model.MovieResponse
 import com.domain.usecase.DiscoverByGenreUseCase
 import com.domain.usecase.GetGenresUseCase
 import com.domain.usecase.GetPopularMoviesUseCase
 import com.domain.usecase.SearchMoviesUseCase
+import com.impl.mapper.movieUiMapper
 import com.impl.screen.home.contract.HomeUiEvent
 import com.impl.screen.home.contract.HomeUiSideEffect
-import com.impl.screen.home.contract.HomeUiSideEffect.*
+import com.impl.screen.home.contract.HomeUiSideEffect.NavigateToDetails
+import com.impl.screen.home.contract.HomeUiSideEffect.ShowError
 import com.impl.screen.home.contract.HomeUiState
+import com.impl.screen.home.model.MovieUiModel
 import com.ui.base.vm.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -24,14 +25,15 @@ class HomeViewModel(
     private val getGenresUseCase: GetGenresUseCase,
     private val searchMoviesUseCase: SearchMoviesUseCase,
     private val discoverByGenreUseCase: DiscoverByGenreUseCase,
-    private var searchJob: Job? = null
+    private var searchJob: Job? = null,
+    private var movies: List<MovieResponse> = emptyList()
 ) : BaseViewModel<HomeUiState, HomeUiEvent, HomeUiSideEffect>(
     HomeUiState()
 ) {
     private var selectedGenreId = 0
 
     init {
-//        observeGenres()
+        observeGenres()
         getPopularMovies(page = 1)
     }
 
@@ -62,7 +64,7 @@ class HomeViewModel(
                         searchQuery = event.query,
                         currentPage = 1
                     )
-                }//TODO take me to the top after search
+                }
 
                 if (event.query.isEmpty()) {
                     getPopularMovies(page = state.value.currentPage)
@@ -81,10 +83,36 @@ class HomeViewModel(
 
             HomeUiEvent.LoadNextPage -> {
                 if (state.value.isLoading || !state.value.hasMorePages) return
+                val nextPage = state.value.currentPage + 1
                 updateState {
                     it.copy(currentPage = state.value.currentPage + 1)
                 }
-                getPopularMovies(page = state.value.currentPage + 1)
+                when {
+                    state.value.searchQuery.isNotBlank() -> {
+                        searchMovies(
+                            query = state.value.searchQuery,
+                            page = nextPage,
+                        )
+                    }
+
+                    selectedGenreId != 0 -> {
+                        discoverByGenre(
+                            genreId = selectedGenreId,
+                            page = nextPage
+                        )
+                    }
+
+                    else -> getPopularMovies(page = nextPage)
+                }
+
+            }
+
+            HomeUiEvent.ToggleGenreFilter -> {
+                updateState {
+                    it.copy(
+                        isGenreListVisible = !it.isGenreListVisible
+                    )
+                }
             }
         }
     }
@@ -101,10 +129,18 @@ class HomeViewModel(
                     }
 
                     is NetworkResult.Success -> {
+                        if (state.value.currentPage == 1) {
+                            movies = result.data
+                        }else{
+                            movies += result.data
+                        }
                         updateState {
                             it.copy(
                                 isLoading = false,
-                                movieList = result.data
+                                movieList = movieUiMapper(
+                                    movies = movies,
+                                    genres = state.value.genreList
+                                )
                             )
                         }
                     }
@@ -148,15 +184,19 @@ class HomeViewModel(
                     }
 
                     is NetworkResult.Success -> {
+                        if (state.value.currentPage == 1) {
+                            movies = result.data
+                        } else {
+                            movies += result.data
+                        }
                         updateState {
                             it.copy(
                                 error = null,
                                 isLoading = false,
-                                movieList = if (state.value.currentPage == 1) {
-                                    result.data
-                                } else {
-                                    state.value.movieList + result.data
-                                }
+                                movieList = movieUiMapper(
+                                    movies = movies,
+                                    genres = state.value.genreList
+                                )
                             )
                         }
                     }
@@ -164,7 +204,6 @@ class HomeViewModel(
             }
         }
     }
-
 
     private fun observeGenres() {
         viewModelScope.launch {
@@ -176,11 +215,48 @@ class HomeViewModel(
                         )
                     }
 
+                    NetworkResult.Loading -> {
+                        updateState {
+                            it.copy(isLoading = true)
+                        }
+                    }
+
+                    is NetworkResult.Success -> {
+                        updateState {
+                            it.copy(
+                                genreList = result.data,
+                                movieList = movieUiMapper(
+                                    movies = movies,
+                                    genres = result.data
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun discoverByGenre(genre: MovieUiModel, page: Int) {
+        viewModelScope.launch {
+            discoverByGenreUseCase(genreId = selectedGenreId, page = page).collect { result ->
+                when (result) {
+                    is NetworkResult.Error -> {
+                        emitSideEffect(
+                            ShowError(result.errorMessage)
+                        )
+                    }
+
                     NetworkResult.Loading -> {}
 
                     is NetworkResult.Success -> {
                         updateState {
-                            it.copy(genreList = result.data)
+                            it.copy(
+                                movieList = movieUiMapper(
+                                    movies = movies,
+                                    genres = state.value.genreList
+                                )
+                            )
                         }
                     }
                 }
