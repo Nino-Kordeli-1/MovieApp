@@ -1,6 +1,6 @@
 package com.data.repository
 
-import com.common.mapper.asResource
+import com.network.mapper.asResource
 import com.common.resource.NetworkResult
 import com.data.datasource.MovieDatasource
 import com.data.mapper.MovieMapper
