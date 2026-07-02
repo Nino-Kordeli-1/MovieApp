@@ -12,6 +12,7 @@ android {
 
 dependencies {
     implementation(projects.core.domain)
+    implementation(projects.core.common)
     implementation(projects.feature.home.api)
     implementation(libs.androidx.activity.compose)
 }

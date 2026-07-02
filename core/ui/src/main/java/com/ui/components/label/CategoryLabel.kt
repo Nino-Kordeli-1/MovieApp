@@ -16,7 +16,8 @@ import com.designsystem.theme.YellowPrimary
 
 @Composable
 fun CategoryLabel(
-    title: String
+    title: String,
+    modifier: Modifier
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
         Text(
@@ -35,6 +36,7 @@ fun CategoryLabel(
 @Preview
 fun CategoryLabelPreview() {
     CategoryLabel(
-        "Category"
+        "Category",
+        modifier = Modifier
     )
 }

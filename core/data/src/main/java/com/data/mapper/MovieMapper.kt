@@ -10,7 +10,7 @@ class MovieMapper : BaseMapper<MovieDto, MovieResponse> {
             genreIds = from.genreIds,
             originalTitle = from.originalTitle,
             overview = from.overview,
-            posterPath = from.posterPath.orEmpty(),
+            posterPath = "https://image.tmdb.org/t/p/w500${from.posterPath.orEmpty()}",
             releaseDate = from.releaseDate,
             title = from.title,
             voteAverage = from.voteAverage,
