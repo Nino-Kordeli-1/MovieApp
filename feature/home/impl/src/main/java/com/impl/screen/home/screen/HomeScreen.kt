@@ -1,5 +1,6 @@
 package com.impl.screen.home.screen
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,14 +10,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -24,16 +27,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.designsystem.Spacing
 import com.designsystem.theme.Neutral01Black
+import com.designsystem.theme.Typography
 import com.designsystem.theme.YellowPrimary
+import com.impl.screen.home.components.FilterButton
+import com.impl.screen.home.components.GenreListLabel
 import com.impl.screen.home.components.SearchBar
 import com.impl.screen.home.contract.HomeUiEvent
 import com.impl.screen.home.vm.HomeViewModel
-import com.movieapp.designsystem.R
 import com.ui.components.movie_card.MovieCard
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -84,8 +88,8 @@ fun HomeScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    top = Spacing.spacing_36,
-                    bottom = Spacing.spacing_22,
+                    top = 63.dp,
+                    bottom = Spacing.spacing_8,
                     start = Spacing.spacing_16,
                     end = Spacing.spacing_16
                 ),
@@ -99,14 +103,47 @@ fun HomeScreen() {
                 modifier = Modifier.weight(1f)
             )
 
-            Icon(
-                painter = painterResource(R.drawable.ic_filter),
-                contentDescription = null,
-                tint = YellowPrimary,
-                modifier = Modifier
-                    .padding(start = Spacing.spacing_8)
+            FilterButton(
+                isSelected = state.isGenreListVisible,
+                onClick = {
+                    viewModel.onEvent(HomeUiEvent.ToggleGenreFilter)
+                }
             )
         }
+
+        AnimatedVisibility(
+            visible = state.isGenreListVisible
+        ) {
+            LazyRow(
+                modifier = Modifier.padding(
+                    start = Spacing.spacing_16,
+                    end = Spacing.spacing_16,
+                    top = Spacing.spacing_8
+                )
+            ) {
+                items(state.genreList) { genre ->
+                    GenreListLabel(
+                        isSelected = genre.id == state.selectedGenre,
+                        onClick = {
+                            viewModel.onEvent(
+                                HomeUiEvent.GenreSelected(genre.id)
+                            )
+                        },
+                        title = genre.name,
+                    )
+                }
+            }
+        }
+
+        Text(
+            text = "Movies",
+            style = Typography.titleLarge,
+            color = YellowPrimary,
+            modifier = Modifier.padding(
+                start = Spacing.spacing_16,
+                top = Spacing.spacing_22
+            )
+        )
 
         LazyVerticalGrid(
             state = gridState,
@@ -121,7 +158,7 @@ fun HomeScreen() {
                     title = movie.title,
                     posterUrl = movie.posterPath,
                     releaseDate = movie.releaseDate,
-                    genre = "",
+                    genre = movie.genre,
                     isFavorite = false,
                     onFavoriteClick = {},
                     modifier = Modifier,
