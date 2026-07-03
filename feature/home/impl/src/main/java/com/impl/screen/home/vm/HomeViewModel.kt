@@ -45,11 +45,17 @@ class HomeViewModel(
 
             is HomeUiEvent.GenreSelected -> {
                 selectedGenreId = event.genreId
+                movies = emptyList()
                 updateState {
                     it.copy(
-                        currentPage = 1
+                        currentPage = 1,
+                        selectedGenre = event.genreId
                     )
                 }
+                discoverByGenre(
+                    genreId = event.genreId,
+                    page = 1
+                )
             }
 
             is HomeUiEvent.MovieClicked -> {
@@ -129,9 +135,9 @@ class HomeViewModel(
                     }
 
                     is NetworkResult.Success -> {
-                        if (state.value.currentPage == 1) {
+                        if (page == 1) {
                             movies = result.data
-                        }else{
+                        } else {
                             movies += result.data
                         }
                         updateState {
@@ -153,9 +159,39 @@ class HomeViewModel(
         viewModelScope.launch {
             discoverByGenreUseCase(genreId = genreId, page = page).collect { result ->
                 when (result) {
-                    is NetworkResult.Error -> {}
-                    NetworkResult.Loading -> {}
-                    is NetworkResult.Success -> {}
+                    is NetworkResult.Error -> {
+                        updateState {
+                            it.copy(
+                                isLoading = false,
+                                error = result.errorMessage
+                            )
+                        }
+                    }
+
+                    NetworkResult.Loading -> {
+                        updateState {
+                            it.copy(
+                                isLoading = true
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Success -> {
+                        if (page == 1) {
+                            movies = result.data
+                        } else {
+                            movies += result.data
+                        }
+                        updateState {
+                            it.copy(
+                                isLoading = false,
+                                movieList = movieUiMapper(
+                                    movies = movies,
+                                    genres = state.value.genreList
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -184,7 +220,7 @@ class HomeViewModel(
                     }
 
                     is NetworkResult.Success -> {
-                        if (state.value.currentPage == 1) {
+                        if (page == 1) {
                             movies = result.data
                         } else {
                             movies += result.data

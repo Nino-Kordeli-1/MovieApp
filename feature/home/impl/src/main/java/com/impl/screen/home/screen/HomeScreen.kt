@@ -52,6 +52,10 @@ fun HomeScreen() {
         gridState.scrollToItem(0)
     }
 
+    LaunchedEffect(state.selectedGenre) {
+        gridState.scrollToItem(0)
+    }
+
     val shouldLoadMore by remember {
         derivedStateOf {
             val lastVisible = gridState.layoutInfo.visibleItemsInfo.lastOrNull()
