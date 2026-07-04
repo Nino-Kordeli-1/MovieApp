@@ -27,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.designsystem.Spacing
 import com.designsystem.theme.Neutral01Black
@@ -37,6 +38,7 @@ import com.impl.screen.home.components.GenreListLabel
 import com.impl.screen.home.components.SearchBar
 import com.impl.screen.home.contract.HomeUiEvent
 import com.impl.screen.home.vm.HomeViewModel
+import com.movieapp.impl.home.R
 import com.ui.components.movie_card.MovieCard
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -139,7 +141,7 @@ fun HomeScreen() {
         }
 
         Text(
-            text = "Movies",
+            text = stringResource(R.string.feature_home_impl_movies),
             style = Typography.titleLarge,
             color = YellowPrimary,
             modifier = Modifier.padding(

@@ -12,12 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.designsystem.Spacing
 import com.designsystem.theme.Neutral01Black
 import com.designsystem.theme.Neutral08Whisper
 import com.designsystem.theme.Typography
 import com.designsystem.theme.YellowPrimary
+import com.movieapp.impl.home.R
 
 @Composable
 fun GenreListLabel(
@@ -54,7 +56,7 @@ fun GenreListLabel(
 @Composable
 fun GenreListLabelPreview() {
     GenreListLabel(
-        "Genre",
+        stringResource(R.string.feature_home_impl_genre),
         isSelected = false,
         onClick = {}
     )
