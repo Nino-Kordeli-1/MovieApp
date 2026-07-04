@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<State, Event, SideEffect>(//TODO make not generic
+abstract class BaseViewModel<State, Event, SideEffect>(
     initialState: State
 ) : ViewModel() {
 
