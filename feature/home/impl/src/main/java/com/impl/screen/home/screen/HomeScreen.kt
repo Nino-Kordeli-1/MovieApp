@@ -27,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.designsystem.Spacing
 import com.designsystem.theme.Neutral01Black
@@ -92,7 +91,7 @@ fun HomeScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    top = 63.dp,
+                    top = Spacing.spacing_63,
                     bottom = Spacing.spacing_8,
                     start = Spacing.spacing_16,
                     end = Spacing.spacing_16
@@ -174,7 +173,7 @@ fun HomeScreen() {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(Spacing.spacing_16),
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator()

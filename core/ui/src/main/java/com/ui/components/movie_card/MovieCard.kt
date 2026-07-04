@@ -20,7 +20,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.designsystem.Spacing
 import com.designsystem.theme.Neutral08Whisper
@@ -41,7 +40,7 @@ fun MovieCard(
 ) {
 
     Column(
-        modifier = modifier.width(160.dp)
+        modifier = modifier.width(Spacing.spacing_160)
     ) {
 
         Card(
@@ -54,7 +53,7 @@ fun MovieCard(
                     contentDescription = title,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(226.dp),
+                        .height(Spacing.spacing_226),
                     contentScale = ContentScale.Crop
                 )
 

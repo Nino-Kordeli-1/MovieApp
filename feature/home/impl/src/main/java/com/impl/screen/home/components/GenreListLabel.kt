@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.designsystem.Spacing
 import com.designsystem.theme.Neutral01Black
 import com.designsystem.theme.Neutral08Whisper
@@ -42,7 +41,7 @@ fun GenreListLabel(
                     shape = RoundedCornerShape(Spacing.spacing_22),
                 )
                 .border(
-                    width = if (isSelected) 0.dp else 0.5.dp,
+                    width = if (isSelected) Spacing.spacing_0 else Spacing.spacing_0_5,
                     color = if (isSelected) YellowPrimary else Color.White,
                     shape = RoundedCornerShape(Spacing.spacing_22)
                 )

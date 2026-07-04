@@ -3,6 +3,9 @@ package com.designsystem
 import androidx.compose.ui.unit.dp
 
 object Spacing {
+    val spacing_0 = 0.dp
+    val spacing_0_5 = 0.5.dp
+    val spacing_1 = 1.dp
     val spacing_2 = 2.dp
     val spacing_4 = 4.dp
     val spacing_6 = 6.dp
@@ -21,5 +24,9 @@ object Spacing {
     val spacing_32 = 32.dp
     val spacing_34 = 34.dp
     val spacing_36 = 36.dp
+    val spacing_38 = 38.dp
+    val spacing_63 = 63.dp
     val spacing_110 = 110.dp
+    val spacing_160 = 160.dp
+    val spacing_226 = 226.dp
 }

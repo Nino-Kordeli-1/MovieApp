@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.designsystem.Spacing
 import com.designsystem.theme.Neutral02DarkestGrey
@@ -34,13 +33,13 @@ fun NavigationBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(Black)
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(Spacing.spacing_16),
+        horizontalArrangement = Arrangement.spacedBy(Spacing.spacing_16)
     ) {
         NavButtons(
             modifier = Modifier
                 .weight(1f)
-                .heightIn(min = 38.dp),
+                .heightIn(Spacing.spacing_38),
             label = "Home",
             selected = currentDestination == BottomBarDestinations.Home,
             onClick = { navigator.onNavigate(BottomBarDestinations.Home) },
@@ -67,7 +66,7 @@ fun NavButtons(
     Button(
         onClick = onClick,
         modifier = modifier,
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(Spacing.spacing_8),
         colors = ButtonDefaults.buttonColors(
             containerColor = if (selected) YellowPrimary else Neutral02DarkestGrey,
             contentColor = if (selected) Black else White
@@ -76,7 +75,7 @@ fun NavButtons(
         Icon(
             painter = painterResource(iconRes),
             contentDescription = label,
-            modifier = Modifier.size(18.dp),
+            modifier = Modifier.size(Spacing.spacing_18),
             tint = if (selected) Black else White
         )
         Text(
