@@ -13,7 +13,6 @@ import com.impl.screen.home.contract.HomeUiSideEffect
 import com.impl.screen.home.contract.HomeUiSideEffect.NavigateToDetails
 import com.impl.screen.home.contract.HomeUiSideEffect.ShowError
 import com.impl.screen.home.contract.HomeUiState
-import com.impl.screen.home.model.MovieUiModel
 import com.ui.base.vm.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -39,23 +38,37 @@ class HomeViewModel(
 
     override fun onEvent(event: HomeUiEvent) {
         when (event) {
-            is HomeUiEvent.FavoriteClicked -> {
-
-            }
+            is HomeUiEvent.FavoriteClicked -> {}
 
             is HomeUiEvent.GenreSelected -> {
-                selectedGenreId = event.genreId
-                movies = emptyList()
-                updateState {
-                    it.copy(
-                        currentPage = 1,
-                        selectedGenre = event.genreId
+                if (selectedGenreId == event.genreId) {
+                    selectedGenreId = 0
+                    movies = emptyList()
+
+                    updateState {
+                        it.copy(
+                            selectedGenre = null,
+                            currentPage = 1
+                        )
+                    }
+
+                    getPopularMovies(page = 1)
+
+                } else {
+                    selectedGenreId = event.genreId
+                    movies = emptyList()
+
+                    updateState {
+                        it.copy(
+                            currentPage = 1,
+                            selectedGenre = event.genreId
+                        )
+                    }
+                    discoverByGenre(
+                        genreId = event.genreId,
+                        page = 1
                     )
                 }
-                discoverByGenre(
-                    genreId = event.genreId,
-                    page = 1
-                )
             }
 
             is HomeUiEvent.MovieClicked -> {
@@ -110,7 +123,6 @@ class HomeViewModel(
 
                     else -> getPopularMovies(page = nextPage)
                 }
-
             }
 
             HomeUiEvent.ToggleGenreFilter -> {
@@ -264,33 +276,6 @@ class HomeViewModel(
                                 movieList = movieUiMapper(
                                     movies = movies,
                                     genres = result.data
-                                )
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun discoverByGenre(genre: MovieUiModel, page: Int) {
-        viewModelScope.launch {
-            discoverByGenreUseCase(genreId = selectedGenreId, page = page).collect { result ->
-                when (result) {
-                    is NetworkResult.Error -> {
-                        emitSideEffect(
-                            ShowError(result.errorMessage)
-                        )
-                    }
-
-                    NetworkResult.Loading -> {}
-
-                    is NetworkResult.Success -> {
-                        updateState {
-                            it.copy(
-                                movieList = movieUiMapper(
-                                    movies = movies,
-                                    genres = state.value.genreList
                                 )
                             )
                         }
