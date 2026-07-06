@@ -78,6 +78,8 @@ class HomeViewModel(
             }
 
             is HomeUiEvent.SearchChanged -> {
+                searchJob?.cancel()
+
                 updateState {
                     it.copy(
                         searchQuery = event.query,
@@ -86,16 +88,30 @@ class HomeViewModel(
                 }
 
                 if (event.query.isEmpty()) {
-                    getPopularMovies(page = state.value.currentPage)
+                    movies = emptyList()
+                    if (selectedGenreId != 0) {
+                        discoverByGenre(
+                            page = 1,
+                            genreId = selectedGenreId
+                        )
+                    } else {
+                        getPopularMovies(page = 1)
+                    }
                 } else {
-                    searchJob?.cancel()
-
                     searchJob = viewModelScope.launch {
                         delay(300.milliseconds)
-                        searchMovies(
-                            query = event.query,
-                            page = state.value.currentPage
-                        )
+                        if (selectedGenreId == 0) {
+                            searchMovies(
+                                query = event.query,
+                                page = 1
+                            )
+                        } else {
+                            searchMoviesInGenre(
+                                query = event.query,
+                                page = 1,
+                                genreId = selectedGenreId
+                            )
+                        }
                     }
                 }
             }
@@ -107,6 +123,14 @@ class HomeViewModel(
                     it.copy(currentPage = state.value.currentPage + 1)
                 }
                 when {
+                    state.value.searchQuery.isNotBlank() && selectedGenreId != 0 -> {
+                        searchMoviesInGenre(
+                            query = state.value.searchQuery,
+                            genreId = selectedGenreId,
+                            page = nextPage
+                        )
+                    }
+
                     state.value.searchQuery.isNotBlank() -> {
                         searchMovies(
                             query = state.value.searchQuery,
@@ -130,6 +154,63 @@ class HomeViewModel(
                     it.copy(
                         isGenreListVisible = !it.isGenreListVisible
                     )
+                }
+            }
+        }
+    }
+
+    private fun searchMoviesInGenre(
+        query: String,
+        genreId: Int,
+        page: Int
+    ) {
+        viewModelScope.launch {
+            discoverByGenreUseCase(
+                genreId = genreId,
+                page = page
+            ).collect { result ->
+                when (result) {
+                    is NetworkResult.Error -> {
+                        updateState {
+                            it.copy(
+                                isLoading = false,
+                                error = result.errorMessage
+                            )
+                        }
+                    }
+
+                    NetworkResult.Loading -> {
+                        updateState {
+                            it.copy(
+                                isLoading = true
+                            )
+                        }
+                    }
+
+                    is NetworkResult.Success -> {
+                        val filteredMovieList =
+                            result.data.filter {
+                                it.title.contains(
+                                    query,
+                                    ignoreCase = true
+                                )
+                            }
+
+                        if (page == 1) {
+                            movies = filteredMovieList
+                        } else {
+                            movies += filteredMovieList
+                        }
+                        updateState {
+                            it.copy(
+                                isLoading = false,
+                                movieList = movieUiMapper(
+                                    movies = movies,
+                                    genres = state.value.genreList
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }
