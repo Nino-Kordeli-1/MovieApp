@@ -12,7 +12,8 @@ data class HomeUiState(
     val selectedGenre: Int? = null,
     val error: String? = null,
     val searchQuery: String = "",
-    val isGenreListVisible: Boolean = false
+    val isGenreListVisible: Boolean = false,
+    val isSearchActive: Boolean = false
 )
 
 sealed interface HomeUiEvent {
@@ -22,6 +23,7 @@ sealed interface HomeUiEvent {
     data class MovieClicked(val movieId: Int) : HomeUiEvent
     data object LoadNextPage : HomeUiEvent
     data object ToggleGenreFilter : HomeUiEvent
+    data object SearchCancelled : HomeUiEvent
 }
 
 sealed interface HomeUiSideEffect {

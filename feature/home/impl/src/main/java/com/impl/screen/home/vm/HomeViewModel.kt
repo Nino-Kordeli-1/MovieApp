@@ -78,14 +78,18 @@ class HomeViewModel(
             }
 
             is HomeUiEvent.SearchChanged -> {
-                searchJob?.cancel()
+                val isActive = event.query.isNotEmpty()
 
                 updateState {
                     it.copy(
                         searchQuery = event.query,
-                        currentPage = 1
+                        currentPage = 1,
+                        isSearchActive = isActive,
+                        isGenreListVisible = if (isActive) false else it.isGenreListVisible
                     )
                 }
+
+                searchJob?.cancel()
 
                 if (event.query.isEmpty()) {
                     movies = emptyList()
@@ -154,6 +158,28 @@ class HomeViewModel(
                     it.copy(
                         isGenreListVisible = !it.isGenreListVisible
                     )
+                }
+            }
+
+            HomeUiEvent.SearchCancelled -> {
+                searchJob?.cancel()
+
+                movies = emptyList()
+
+                updateState {
+                    it.copy(
+                        searchQuery = "",
+                        isSearchActive = false,
+                        currentPage = 1
+                    )
+                }
+                if (selectedGenreId != 0) {
+                    discoverByGenre(
+                        genreId = selectedGenreId,
+                        page = 1
+                    )
+                } else {
+                    getPopularMovies(page = 1)
                 }
             }
         }

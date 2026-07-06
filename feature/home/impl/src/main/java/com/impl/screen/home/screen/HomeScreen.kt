@@ -2,6 +2,7 @@ package com.impl.screen.home.screen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.designsystem.Spacing
 import com.designsystem.theme.Neutral01Black
 import com.designsystem.theme.Neutral02DarkestGrey
+import com.designsystem.theme.Neutral08Whisper
 import com.designsystem.theme.Typography
 import com.designsystem.theme.YellowPrimary
 import com.impl.screen.home.components.FilterButton
@@ -89,7 +91,7 @@ fun HomeScreen() {
 
     if (state.error != null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()//TODO ERROR INDICATOR
+            CircularProgressIndicator()
         }
     }
 
@@ -117,16 +119,29 @@ fun HomeScreen() {
                 modifier = Modifier.weight(1f)
             )
 
-            FilterButton(
-                isSelected = state.isGenreListVisible,
-                onClick = {
-                    viewModel.onEvent(HomeUiEvent.ToggleGenreFilter)
-                }
-            )
+            if (state.isSearchActive) {
+                Text(
+                    text = "Cancel",
+                    style = Typography.labelSmall,
+                    color = Neutral08Whisper,
+                    modifier = Modifier
+                        .clickable {
+                            viewModel.onEvent(HomeUiEvent.SearchCancelled)
+                        }
+                        .padding(start = Spacing.spacing_4)
+                )
+            } else {
+                FilterButton(
+                    isSelected = state.isGenreListVisible,
+                    onClick = {
+                        viewModel.onEvent(HomeUiEvent.ToggleGenreFilter)
+                    }
+                )
+            }
         }
 
         AnimatedVisibility(
-            visible = state.isGenreListVisible
+            visible = state.isGenreListVisible && !state.isSearchActive
         ) {
             LazyRow(
                 modifier = Modifier.padding(
