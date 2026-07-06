@@ -39,7 +39,7 @@ fun GenreListLabel(
                 .align(Alignment.TopEnd)
                 .padding(/*top = Spacing.spacing_10,*/ end = Spacing.spacing_10)
                 .background(
-                    color = if (isSelected) YellowPrimary else Color.Transparent,
+                    color = if (isSelected) YellowPrimary else Neutral01Black,
                     shape = RoundedCornerShape(Spacing.spacing_22),
                 )
                 .border(
