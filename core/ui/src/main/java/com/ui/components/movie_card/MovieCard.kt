@@ -1,5 +1,6 @@
 package com.ui.components.movie_card
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,16 +19,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.SubcomposeAsyncImage
 import com.designsystem.Spacing
+import com.designsystem.theme.Neutral02DarkestGrey
 import com.designsystem.theme.Neutral08Whisper
 import com.designsystem.theme.NeutralGrey04Grey
 import com.designsystem.theme.YellowPrimary
+import com.movieapp.designsystem.R
 import com.ui.components.label.CategoryLabel
 
 @Composable
@@ -50,7 +52,6 @@ fun MovieCard(
             shape = RoundedCornerShape(Spacing.spacing_16)
         ) {
             Box {
-
                 SubcomposeAsyncImage(
                     model = posterUrl,
                     contentDescription = title,
@@ -68,10 +69,14 @@ fun MovieCard(
                     },
 
                     error = {
-                        Box(
-                            Modifier
+                        Image(
+                            painter = painterResource(R.drawable.ic_no_photo),
+                            contentDescription = null,
+                            modifier = Modifier
                                 .fillMaxSize()
-                                .background(Color.DarkGray)
+                                .background(Neutral02DarkestGrey)
+                                .padding(Spacing.spacing_63),
+                            contentScale = ContentScale.Fit
                         )
                     }
                 )
@@ -129,9 +134,9 @@ fun FavoriteButton(
     Icon(
         painter = painterResource(
             if (selected)
-                com.movieapp.designsystem.R.drawable.ic_filled_heart
+                R.drawable.ic_filled_heart
             else
-                com.movieapp.designsystem.R.drawable.ic_outlined_heart
+                R.drawable.ic_outlined_heart
         ),
         contentDescription = "Favorite",
         tint = YellowPrimary,
