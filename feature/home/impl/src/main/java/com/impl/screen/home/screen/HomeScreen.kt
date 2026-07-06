@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,10 +28,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.designsystem.Spacing
 import com.designsystem.theme.Neutral01Black
+import com.designsystem.theme.Neutral02DarkestGrey
 import com.designsystem.theme.Typography
 import com.designsystem.theme.YellowPrimary
 import com.impl.screen.home.components.FilterButton
@@ -56,6 +60,11 @@ fun HomeScreen() {
     LaunchedEffect(state.selectedGenre) {
         gridState.scrollToItem(0)
     }
+
+    val isEmptyState =
+        state.movieList.isEmpty() &&
+                !state.isLoading &&
+                state.searchQuery.isNotEmpty()
 
     val shouldLoadMore by remember {
         derivedStateOf {
@@ -146,9 +155,31 @@ fun HomeScreen() {
             color = YellowPrimary,
             modifier = Modifier.padding(
                 start = Spacing.spacing_16,
-                top = Spacing.spacing_22
+                top = Spacing.spacing_22,
             )
         )
+
+        if (isEmptyState) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+
+                Icon(
+                    painter = painterResource(com.movieapp.designsystem.R.drawable.ic_no_results),
+                    contentDescription = null,
+                    tint = Neutral02DarkestGrey
+                )
+                Text(
+                    text = stringResource(R.string.feature_home_impl_no_movies_added_yet),
+                    modifier = Modifier.padding(top = Spacing.spacing_24),
+                    color = Neutral02DarkestGrey,
+                    style = Typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
 
         LazyVerticalGrid(
             state = gridState,
