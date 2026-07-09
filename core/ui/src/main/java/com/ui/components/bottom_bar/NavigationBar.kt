@@ -35,8 +35,8 @@ fun NavigationBar(
                 .weight(1f)
                 .heightIn(min = 38.dp),
             label = "Home",
-            selected = currentDestination == BottomBarDestinations.Catalogue,
-            onClick = { navigator.onNavigate(BottomBarDestinations.Catalogue) }
+            selected = currentDestination == BottomBarDestinations.Home,
+            onClick = { navigator.onNavigate(BottomBarDestinations.Home) }
         )
         NavButtons(
             modifier = Modifier.weight(1f),
@@ -81,6 +81,6 @@ fun NavButtons(
 @Preview
 @Composable
 fun ButtonPreview() {
-    NavigationBar(BottomBarDestinations.Catalogue, navigator = BottomBarNavigator(function = {}))
+    NavigationBar(BottomBarDestinations.Home, navigator = BottomBarNavigator(function = {}))
     NavigationBar(BottomBarDestinations.Favorites, navigator = BottomBarNavigator(function = {}))
 }

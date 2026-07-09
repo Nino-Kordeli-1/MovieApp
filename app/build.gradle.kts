@@ -19,8 +19,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.feature.catalogue.api)
-    implementation(projects.feature.catalogue.impl)
+    implementation(projects.feature.home.api)
+    implementation(projects.feature.home.impl)
     implementation(projects.feature.splash.api)
     implementation(projects.feature.splash.impl)
     implementation(projects.feature.favorites.api)
