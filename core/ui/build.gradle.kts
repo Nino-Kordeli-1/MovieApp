@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    api(projects.core.domain)
     api(projects.core.designsystem)
     api(projects.core.model)
 

@@ -10,6 +10,9 @@ android {
 
 dependencies {
     implementation(projects.core.domain)
+    implementation(projects.core.common)
+    implementation(projects.core.ui)
     implementation(projects.feature.details.api)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.coil.compose)
 }

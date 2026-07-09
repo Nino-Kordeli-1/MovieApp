@@ -11,6 +11,7 @@ androidxSavedStateCompose = "1.4.0"
 kotlinJvm = "2.1.21"
 androidxLifecycle = "2.10.0"
 lifecycleViewmodelKtx = "2.10.0"
+roomRuntime = "2.8.4"
 turbine = "1.2.1"
 retrofit = "3.0.0"
 composeBom = "2026.02.01"
@@ -85,6 +86,11 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 # Koin
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+
+# Room
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }

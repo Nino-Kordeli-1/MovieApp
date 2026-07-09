@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.movieapp.android.application)
     alias(libs.plugins.movieapp.android.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -27,6 +28,7 @@ dependencies {
     implementation(projects.feature.favorites.impl)
     implementation(projects.feature.details.api)
     implementation(projects.feature.details.impl)
+    implementation(projects.core.database)
     // Core modules
     implementation(projects.core.common)
     implementation(projects.core.ui)
@@ -43,4 +45,9 @@ dependencies {
 
     //Serialization
     implementation(libs.kotlinx.serialization.json)
+
+    //Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 }
