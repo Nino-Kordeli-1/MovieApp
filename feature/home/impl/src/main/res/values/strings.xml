@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_home_impl_search">Search</string>
+    <string name="feature_home_impl_movies">Movies</string>
+    <string name="feature_home_impl_genre">Genre</string>
+    <string name="feature_home_impl_no_movies_added_yet">No movies added yet</string>
+</resources>
