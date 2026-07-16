@@ -1,12 +1,14 @@
-package com.impl.mapper
+package com.ui.mapper
 
 import com.domain.model.GenreResponse
 import com.domain.model.MovieResponse
-import com.impl.screen.home.model.MovieUiModel
+import com.model.MovieUiModel
+import kotlin.collections.map
 
 fun movieUiMapper(
     movies: List<MovieResponse>,
-    genres: List<GenreResponse>
+    genres: List<GenreResponse>,
+    favoriteIds: Set<Int>
 ): List<MovieUiModel> {
     return movies.map { movie ->
         val genreNames = movie.genreIds.mapNotNull { id ->
@@ -22,7 +24,8 @@ fun movieUiMapper(
             posterPath = movie.posterPath,
             releaseDate = movie.releaseDate,
             title = movie.title,
-            voteAverage = movie.voteAverage
+            voteAverage = movie.voteAverage,
+            isFavorite = movie.id in favoriteIds
         )
     }
 }
