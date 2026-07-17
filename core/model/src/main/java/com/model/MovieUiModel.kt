@@ -1,4 +1,4 @@
-package com.impl.screen.home.model
+package com.model
 
 data class MovieUiModel(
     val id: Int,
@@ -10,5 +10,6 @@ data class MovieUiModel(
     val posterPath: String,
     val releaseDate: String,
     val title: String,
-    val voteAverage: Double
+    val voteAverage: Double,
+    val isFavorite: Boolean = false
 )
