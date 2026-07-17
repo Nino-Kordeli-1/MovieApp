@@ -10,7 +10,9 @@ val dataModule = module {
 
     single<FavoritesDatasource> {
         FavoritesDatasourceImpl(
-            dao = get()
+            dao = get(),
+            favoriteMovieMapper = get(),
+            favoriteMovieEntityMapper = get()
         )
     }
 
