@@ -9,8 +9,8 @@ import com.movieapp.entity.FavoriteMovieEntity
 
 @Database(
     entities = [FavoriteMovieEntity::class],
-    version = 2,
-    exportSchema = false
+    version = 1,
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class MovieDatabase : RoomDatabase() {
