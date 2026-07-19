@@ -11,7 +11,6 @@ val databaseModule = module {
             MovieDatabase::class.java,
             "movie_database"
         )
-            .fallbackToDestructiveMigration(true)
             .build()
     }
     single {
