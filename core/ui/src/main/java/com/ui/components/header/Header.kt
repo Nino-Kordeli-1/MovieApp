@@ -38,7 +38,7 @@ fun Header(
             ) {
                 Icon(
                     painter = painterResource(com.movieapp.designsystem.R.drawable.ic_back_arrow),
-                    contentDescription = "Back",
+                    contentDescription = null,
                     tint = Neutral08Whisper
                 )
             }
