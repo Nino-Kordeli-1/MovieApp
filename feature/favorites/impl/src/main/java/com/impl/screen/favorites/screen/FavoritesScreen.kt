@@ -10,10 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.designsystem.theme.Neutral01Black
 import com.impl.screen.favorites.contract.FavoritesUiEvent
 import com.impl.screen.favorites.vm.FavoritesViewModel
+import com.movieapp.impl.favorites.R
 import com.ui.components.empty_state.EmptyScreen
 import com.ui.components.header.Header
 import com.ui.components.movie_grid.MovieGrid
@@ -31,7 +33,7 @@ fun FavoritesScreen(viewModel: FavoritesViewModel) {
     }
 
     if (state.favorites.isEmpty()) {
-        EmptyScreen(text = "No movies added yet")
+        EmptyScreen(text = stringResource(R.string.feature_favorites_impl_no_movies_added_yet))
         return
     }
 
@@ -42,7 +44,7 @@ fun FavoritesScreen(viewModel: FavoritesViewModel) {
     ) {
         Header(
             showBackButton = false,
-            text = "Favorites"
+            text = stringResource(R.string.feature_favorites_impl_favorites)
         ) { }
 
         MovieGrid(
