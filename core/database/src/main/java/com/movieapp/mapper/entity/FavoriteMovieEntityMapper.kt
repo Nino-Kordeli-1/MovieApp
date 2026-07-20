@@ -22,5 +22,4 @@ class FavoriteMovieEntityMapper : BaseMapper<FavoriteMovieEntity, MovieResponse>
             )
         }
     }
-
 }
