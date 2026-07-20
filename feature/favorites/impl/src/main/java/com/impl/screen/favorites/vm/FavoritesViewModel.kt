@@ -9,14 +9,16 @@ import com.domain.usecase.RemoveFavoriteUseCase
 import com.impl.screen.favorites.contract.FavoritesUiEvent
 import com.impl.screen.favorites.contract.FavoritesUiSideEffect
 import com.impl.screen.favorites.contract.FavoritesUiState
+import com.impl.screen.favorites.mapper.MovieUiMapper
+import com.impl.screen.favorites.mapper.MovieUiMapperInput
 import com.ui.base.vm.BaseViewModel
-import com.ui.mapper.movieUiMapper
 import kotlinx.coroutines.launch
 
 class FavoritesViewModel(
     private val getFavoriteUseCase: GetFavoriteUseCase,
     private val getGenresUseCase: GetGenresUseCase,
     private val removeFavoriteUseCase: RemoveFavoriteUseCase,
+    private val movieUiMapper: MovieUiMapper
 ) : BaseViewModel<FavoritesUiState, FavoritesUiEvent, FavoritesUiSideEffect>(
     FavoritesUiState()
 ) {
@@ -34,6 +36,7 @@ class FavoritesViewModel(
                     removeFavoriteUseCase(event.movieId)
                 }
             }
+
             is FavoritesUiEvent.MovieClicked -> {
                 emitSideEffect(FavoritesUiSideEffect.NavigateToDetails(event.movieId))
             }
@@ -57,6 +60,7 @@ class FavoritesViewModel(
                     is NetworkResult.Error -> updateState {
                         it.copy(isLoading = false, error = result.errorMessage)
                     }
+
                     is NetworkResult.Success -> {
                         updateState {
                             it.copy(
@@ -74,10 +78,12 @@ class FavoritesViewModel(
     private fun updateFavoritesList() {
         updateState {
             it.copy(
-                favorites = movieUiMapper(
-                    movies = movies,
-                    genres = it.genreList,
-                    favoriteIds = movies.map { movie -> movie.id }.toSet()
+                favorites = movieUiMapper.map(
+                    MovieUiMapperInput(
+                        movies = movies,
+                        genres = it.genreList,
+                        favoriteIds = movies.map { movie -> movie.id }.toSet()
+                    )
                 )
             )
         }
