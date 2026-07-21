@@ -1,6 +1,7 @@
 package com.impl.screen.favorites.vm
 
 import androidx.lifecycle.viewModelScope
+import com.api.navigation.DetailsNavKey
 import com.common.resource.NetworkResult
 import com.domain.model.MovieResponse
 import com.domain.usecase.GetFavoriteUseCase
@@ -11,6 +12,7 @@ import com.impl.screen.favorites.contract.FavoritesUiSideEffect
 import com.impl.screen.favorites.contract.FavoritesUiState
 import com.impl.screen.favorites.mapper.MovieUiMapper
 import com.impl.screen.favorites.mapper.MovieUiMapperInput
+import com.navigation.NavCommand
 import com.ui.base.vm.BaseViewModel
 import kotlinx.coroutines.launch
 
@@ -38,7 +40,7 @@ class FavoritesViewModel(
             }
 
             is FavoritesUiEvent.MovieClicked -> {
-                emitSideEffect(FavoritesUiSideEffect.NavigateToDetails(event.movieId))
+                navigate(NavCommand.Navigate(DetailsNavKey(event.movieId)))
             }
         }
     }

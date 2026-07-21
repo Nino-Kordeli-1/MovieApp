@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.designsystem.Spacing
@@ -33,21 +34,26 @@ fun NavigationBar(
         modifier = Modifier
             .fillMaxWidth()
             .background(Black)
-            .padding(Spacing.spacing_16),
+            .padding(
+                start = Spacing.spacing_16,
+                end = Spacing.spacing_16,
+                top = Spacing.spacing_16,
+                bottom = Spacing.spacing_28
+            ),
         horizontalArrangement = Arrangement.spacedBy(Spacing.spacing_16)
     ) {
         NavButtons(
             modifier = Modifier
                 .weight(1f)
                 .heightIn(Spacing.spacing_38),
-            label = "Home",
+            label = stringResource(com.movieapp.ui.R.string.core_ui_home),
             selected = currentDestination == BottomBarDestinations.Home,
             onClick = { navigator.onNavigate(BottomBarDestinations.Home) },
             iconRes = R.drawable.ic_home
         )
         NavButtons(
             modifier = Modifier.weight(1f),
-            label = "Favorites",
+            label = stringResource(com.movieapp.ui.R.string.core_ui_favorites),
             selected = currentDestination == BottomBarDestinations.Favorites,
             onClick = { navigator.onNavigate(BottomBarDestinations.Favorites) },
             iconRes = R.drawable.ic_outlined_heart
@@ -90,6 +96,6 @@ fun NavButtons(
 @Preview
 @Composable
 fun ButtonPreview() {
-    NavigationBar(BottomBarDestinations.Home, navigator = BottomBarNavigator(function = {}))
-    NavigationBar(BottomBarDestinations.Favorites, navigator = BottomBarNavigator(function = {}))
+    NavigationBar(BottomBarDestinations.Home, navigator = {})
+    NavigationBar(BottomBarDestinations.Favorites, navigator = {})
 }

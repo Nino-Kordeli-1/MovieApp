@@ -27,7 +27,7 @@ class Navigator(val state: NavigationState) {
      */
     fun goBack() {
         when (state.currentKey) {
-            state.startKey -> error("You cannot go back from the start route")
+            state.startKey -> return
             state.currentTopLevelKey -> {
                 // We're at the base of the current sub stack, go back to the previous top level
                 // stack.
@@ -90,8 +90,8 @@ class Navigator(val state: NavigationState) {
             }
 
         // 3. Replace top-level history last
-        state.topLevelStack.add(key)
         state.topLevelStack.clear()
+        state.topLevelStack.add(key)
     }
 
 
