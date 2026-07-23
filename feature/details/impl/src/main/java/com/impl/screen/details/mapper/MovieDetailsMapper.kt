@@ -5,9 +5,10 @@ import com.domain.model.MovieDetails
 import com.model.MovieDetailsUiModel
 import com.model.MovieGenreUiModel
 
-class MovieDetailsUiMapper : BaseMapper<MovieDetails, MovieDetailsUiModel> {
-    override fun map(from: MovieDetails): MovieDetailsUiModel {
-        with(from) {
+class MovieDetailsUiMapper : BaseMapper<MovieDetailsUiMapperInput, MovieDetailsUiModel> {
+    override fun map(from: MovieDetailsUiMapperInput): MovieDetailsUiModel {
+        val movie = from.movie
+        with(movie) {
             return MovieDetailsUiModel(
                 id = id,
                 backdropPath = backdropPath,
@@ -19,8 +20,13 @@ class MovieDetailsUiMapper : BaseMapper<MovieDetails, MovieDetailsUiModel> {
                 title = title,
                 voteAverage = voteAverage,
                 runtime = runtime,
-                isFavorite = false,
+                isFavorite = from.isFavorite,
             )
         }
     }
 }
+
+data class MovieDetailsUiMapperInput(
+    val movie: MovieDetails,
+    val isFavorite: Boolean
+)
