@@ -21,8 +21,6 @@ import com.impl.screen.home.mapper.MovieUiMapperInput
 import com.model.MovieUiModel
 import com.navigation.NavCommand
 import com.ui.base.vm.BaseViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
@@ -40,11 +38,6 @@ class HomeViewModel(
 ) : BaseViewModel<HomeUiState, HomeUiEvent, HomeUiSideEffect>(
     HomeUiState()
 ) {
-    private var selectedGenreId = 0
-    private var searchJob: Job? = null
-    private var movies: List<MovieResponse> = emptyList()
-    private var lastMovieClickTime = 0L
-    private var isConnectedState = false
 
     init {
         observeNetwork()
@@ -195,7 +188,7 @@ class HomeViewModel(
                                 genreList = result.data,
                                 movieList = movieUiMapper.map(
                                     MovieUiMapperInput(
-                                        movies = movies,
+                                        movies = state.value.movies,
                                         genres = result.data,
                                         favoriteIds = state.value.favoriteId
                                     )
@@ -221,7 +214,7 @@ class HomeViewModel(
                         favoriteId = ids,
                         movieList = movieUiMapper.map(
                             MovieUiMapperInput(
-                                movies = movies,
+                                movies = state.value.movies,
                                 genres = state.value.genreList,
                                 favoriteIds = ids
                             )
@@ -237,9 +230,9 @@ class HomeViewModel(
         page: Int
     ) {
         if (page == 1) {
-            movies = newMovies
+            state.value.movies = newMovies
         } else {
-            movies += newMovies
+            state.value.movies += newMovies
         }
 
         updateState {
@@ -248,7 +241,7 @@ class HomeViewModel(
                 hasMorePages = newMovies.isNotEmpty(),
                 movieList = movieUiMapper.map(
                     MovieUiMapperInput(
-                        movies = movies,
+                        movies = state.value.movies,
                         genres = it.genreList,
                         favoriteIds = it.favoriteId
                     )
@@ -260,7 +253,7 @@ class HomeViewModel(
     private fun observeNetwork() {
         viewModelScope.launch {
             connectivityObserver.observe().collect { connected ->
-                isConnectedState = connected
+                state.value.isConnected = connected
                 if (!connected) {
                     updateState { it.copy(isConnected = false) }
                 }
@@ -331,7 +324,7 @@ class HomeViewModel(
                 genreList = emptyList()
             )
         }
-        movies = emptyList()
+        state.value.movies = emptyList()
 
         updateState {
             it.copy(
@@ -341,10 +334,10 @@ class HomeViewModel(
         }
 
         when {
-            state.value.searchQuery.isNotBlank() && selectedGenreId != 0 -> {
+            state.value.searchQuery.isNotBlank() && state.value.selectedGenreId != 0 -> {
                 searchMoviesInGenre(
                     query = state.value.searchQuery,
-                    genreId = selectedGenreId,
+                    genreId = state.value.selectedGenreId,
                     page = 1
                 )
             }
@@ -356,9 +349,9 @@ class HomeViewModel(
                 )
             }
 
-            selectedGenreId != 0 -> {
+            state.value.selectedGenreId != 0 -> {
                 discoverByGenre(
-                    genreId = selectedGenreId,
+                    genreId = state.value.selectedGenreId,
                     page = 1
                 )
             }
@@ -370,10 +363,9 @@ class HomeViewModel(
     }
 
     fun onMovieClick(movieId: Int) {
-        val now = System.currentTimeMillis()
-        if (now - lastMovieClickTime < 500) return
-        lastMovieClickTime = now
-        navigate(NavCommand.Navigate(DetailsNavKey(movieId)))
+        state.value.lastMovieClickTime = launchSingleClick(state.value.lastMovieClickTime) {
+            navigate(NavCommand.Navigate(DetailsNavKey(movieId)))
+        }
     }
 
     private fun onFavoriteClick(movie: MovieUiModel) {
@@ -383,7 +375,8 @@ class HomeViewModel(
                     movie.id
                 )
             } else {
-                val movieToAdd = movies.firstOrNull { it.id == movie.id } ?: return@launch
+                val movieToAdd =
+                    state.value.movies.firstOrNull { it.id == movie.id } ?: return@launch
 
                 addFavoriteUseCase(movieToAdd)
             }
@@ -391,9 +384,9 @@ class HomeViewModel(
     }
 
     private fun onGenreSelected(genreId: Int) {
-        if (selectedGenreId == genreId) {
-            selectedGenreId = 0
-            movies = emptyList()
+        if (state.value.selectedGenreId == genreId) {
+            state.value.selectedGenreId = 0
+            state.value.movies = emptyList()
 
             updateState {
                 it.copy(
@@ -403,8 +396,8 @@ class HomeViewModel(
             }
             getPopularMovies(page = 1)
         } else {
-            selectedGenreId = genreId
-            movies = emptyList()
+            state.value.selectedGenreId = genreId
+            state.value.movies = emptyList()
 
             updateState {
                 it.copy(
@@ -430,22 +423,24 @@ class HomeViewModel(
                 isGenreListVisible = if (isActive) false else it.isGenreListVisible
             )
         }
-        searchJob?.cancel()
+        state.value.searchJob?.cancel()
 
         if (query.isEmpty()) {
-            movies = emptyList()
-            if (selectedGenreId != 0) {
+            state.value.movies = emptyList()
+            if (state.value.selectedGenreId != 0) {
                 discoverByGenre(
                     page = 1,
-                    genreId = selectedGenreId
+                    genreId = state.value.selectedGenreId
                 )
             } else {
                 getPopularMovies(page = 1)
             }
         } else {
-            searchJob = viewModelScope.launch {
-                delay(300.milliseconds)
-                if (selectedGenreId == 0) {
+            state.value.searchJob = launchDelay(
+                job = state.value.searchJob,
+                delayTime = 300.milliseconds
+            ) {
+                if (state.value.selectedGenreId == 0) {
                     searchMovies(
                         query = query,
                         page = 1
@@ -454,7 +449,7 @@ class HomeViewModel(
                     searchMoviesInGenre(
                         query = query,
                         page = 1,
-                        genreId = selectedGenreId
+                        genreId = state.value.selectedGenreId
                     )
                 }
             }
@@ -469,10 +464,10 @@ class HomeViewModel(
             it.copy(currentPage = nextPage)
         }
         when {
-            currentState.searchQuery.isNotBlank() && selectedGenreId != 0 -> {
+            currentState.searchQuery.isNotBlank() && state.value.selectedGenreId != 0 -> {
                 searchMoviesInGenre(
                     query = currentState.searchQuery,
-                    genreId = selectedGenreId,
+                    genreId = state.value.selectedGenreId,
                     page = nextPage
                 )
             }
@@ -484,9 +479,9 @@ class HomeViewModel(
                 )
             }
 
-            selectedGenreId != 0 -> {
+            state.value.selectedGenreId != 0 -> {
                 discoverByGenre(
-                    genreId = selectedGenreId,
+                    genreId = state.value.selectedGenreId,
                     page = nextPage
                 )
             }
@@ -504,7 +499,7 @@ class HomeViewModel(
     }
 
     private fun onDeleteClicked() {
-        searchJob?.cancel()
+        state.value.searchJob?.cancel()
 
         val currentQuery = state.value.searchQuery
         if (currentQuery.isNotEmpty()) {
@@ -514,15 +509,23 @@ class HomeViewModel(
                 it.copy(
                     searchQuery = newQuery,
                     currentPage = 1,
-                    isSearchActive = true
+                    isSearchActive = newQuery.isNotEmpty()
                 )
             }
+            if (newQuery.isEmpty()) {
+                getPopularMovies(page = 1)
+            } else (
+                    searchMovies(
+                        query = newQuery,
+                        page = 1
+                    )
+                    )
         }
     }
 
     private fun onSearchCanceled() {
-        searchJob?.cancel()
-        movies = emptyList()
+        state.value.searchJob?.cancel()
+        state.value.movies = emptyList()
 
         updateState {
             it.copy(
@@ -531,9 +534,9 @@ class HomeViewModel(
                 isSearchActive = false
             )
         }
-        if (selectedGenreId != 0) {
+        if (state.value.selectedGenreId != 0) {
             discoverByGenre(
-                genreId = selectedGenreId,
+                genreId = state.value.selectedGenreId,
                 page = 1
             )
         } else
@@ -541,7 +544,7 @@ class HomeViewModel(
     }
 
     private fun retryClicked() {
-        if (isConnectedState) {
+        if (state.value.isConnected) {
             updateState { it.copy(isConnected = true) }
             observeFavorites()
             observeGenres()
