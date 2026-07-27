@@ -14,7 +14,7 @@ fun EntryProviderScope<NavKey>.favoritesEntry() {
         val viewModel: FavoritesViewModel = koinViewModel()
         val navigator = requireNavigator()
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(viewModel) {
             viewModel.navigationCommands.collect { command ->
                 command.execute(navigator)
             }
