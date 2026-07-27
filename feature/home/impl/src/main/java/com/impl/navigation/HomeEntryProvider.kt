@@ -16,13 +16,13 @@ fun EntryProviderScope<NavKey>.homeEntry() {
         val viewModel: HomeViewModel = koinViewModel()
         val navigator = requireNavigator()
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(viewModel) {
             viewModel.navigationCommands.collect { command ->
                 command.execute(navigator)
             }
         }
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(viewModel) {
             viewModel.sideEffect.collect { effect ->
                 when (effect) {
                     is HomeUiSideEffect.ShowError -> {

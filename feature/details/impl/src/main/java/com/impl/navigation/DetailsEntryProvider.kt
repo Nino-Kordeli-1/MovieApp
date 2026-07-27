@@ -15,7 +15,7 @@ fun EntryProviderScope<NavKey>.detailsEntry() {
         val viewModel: DetailsViewModel = koinViewModel(parameters = { parametersOf(key.movieId) })
         val navigator = requireNavigator()
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(viewModel) {
             viewModel.navigationCommands.collect { command ->
                 command.execute(navigator)
             }
