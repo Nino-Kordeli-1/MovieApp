@@ -3,12 +3,15 @@ package com.ui.base.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.navigation.NavCommand
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration
 
 abstract class BaseViewModel<State, Event, SideEffect>(
     initialState: State
@@ -33,6 +36,33 @@ abstract class BaseViewModel<State, Event, SideEffect>(
         viewModelScope.launch {
             _sideEffect.emit(sideEffect)
         }
+    }
+
+    protected fun launchDelay(
+        job: Job?,
+        delayTime: Duration,
+        block: suspend () -> Unit
+    ): Job {
+        job?.cancel()
+        return viewModelScope.launch {
+            delay(delayTime)
+            block()
+        }
+    }
+
+    protected fun launchSingleClick(
+        lastClickTime: Long,
+        interval: Long = 500,
+        block: () -> Unit
+    ): Long {
+        val now = System.currentTimeMillis()
+
+        if (now - lastClickTime >= interval) {
+            block()
+            return now
+        }
+
+        return lastClickTime
     }
 
     protected fun navigate(command: NavCommand) {
