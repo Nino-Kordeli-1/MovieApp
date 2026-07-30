@@ -11,7 +11,7 @@ data class MovieDetailsDto(
     val id: Int,
     val adult: Boolean,
     @SerialName("backdrop_path")
-    val backdropPath: String? = null,
+    val backdropPath: String?,
     val genres: List<GenreResponseDto> = emptyList(),
     @SerialName("original_language")
     val originalLanguage: String,
@@ -20,10 +20,10 @@ data class MovieDetailsDto(
     val overview: String,
     val popularity: Double,
     @SerialName("poster_path")
-    val posterPath: String? = null,
+    val posterPath: String?,
     @SerialName("release_date")
     val releaseDate: String,
-    val runtime: Int? = null,
+    val runtime: Int?,
     val title: String,
     @SerialName("vote_average")
     val voteAverage: Double,
