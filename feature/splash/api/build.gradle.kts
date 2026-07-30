@@ -5,8 +5,3 @@ plugins {
 android {
     namespace = "com.movieapp.core.splash"
 }
-
-dependencies {
-    api(projects.core.navigation)
-    implementation(projects.core.domain)
-}

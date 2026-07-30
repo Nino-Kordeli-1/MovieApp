@@ -5,8 +5,3 @@ plugins {
 android {
     namespace = "com.movieapp.core.favorites"
 }
-
-dependencies {
-    api(projects.core.navigation)
-    api(projects.core.domain)
-}

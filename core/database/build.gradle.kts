@@ -11,6 +11,8 @@ android {
 }
 
 dependencies {
+    api(projects.core.model)
+    api(projects.core.common)
     implementation(projects.core.domain)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)

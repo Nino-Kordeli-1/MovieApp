@@ -34,21 +34,17 @@ include(":core:navigation")
 include(":core:designsystem")
 include(":core:ui")
 include(":core:network")
+include(":core:database")
 
 //Feature
-include(":feature:home")
 include(":feature:home:api")
 include(":feature:home:impl")
 
-include(":feature:details")
 include(":feature:details:api")
 include(":feature:details:impl")
 
-include(":feature:favorites")
 include(":feature:favorites:impl")
 include(":feature:favorites:api")
 
-include(":feature:splash")
 include(":feature:splash:impl")
 include(":feature:splash:api")
-include(":core:database")
