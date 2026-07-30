@@ -12,5 +12,6 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.core.domain)
     implementation(projects.feature.splash.api)
+    implementation(projects.feature.home.api)
     implementation(libs.androidx.activity.compose)
 }

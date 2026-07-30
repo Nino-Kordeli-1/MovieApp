@@ -1,5 +1,6 @@
 package com.data.mapper
 
+import com.common.mapper.BaseMapper
 import com.data.dto.movie.MovieDto
 import com.domain.model.MovieResponse
 

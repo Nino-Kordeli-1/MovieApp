@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.movieapp.android.application)
     alias(libs.plugins.movieapp.android.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -27,6 +28,7 @@ dependencies {
     implementation(projects.feature.favorites.impl)
     implementation(projects.feature.details.api)
     implementation(projects.feature.details.impl)
+    implementation(projects.core.database)
     // Core modules
     implementation(projects.core.common)
     implementation(projects.core.ui)
@@ -40,6 +42,7 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.koin.compose)
 
     //Serialization
     implementation(libs.kotlinx.serialization.json)
