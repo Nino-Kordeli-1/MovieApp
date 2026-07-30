@@ -11,5 +11,4 @@ val mapperModule = module {
     single { GenreMapper() }
     single { FavoriteMovieMapper() }
     single { FavoriteMovieEntityMapper() }
-    single { MovieMapper() }
 }
