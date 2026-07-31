@@ -16,14 +16,14 @@ data class HomeUiState(
     var selectedGenreId: Int = 0,
     val error: String? = null,
     val searchQuery: String = "",
-    var isConnected: Boolean = false,
-    var lastMovieClickTime: Long = 0L,
+    var isConnected: Boolean? = null,
     var searchJob: Job? = null,
     val isGenreListVisible: Boolean = false,
     val isSearchActive: Boolean = false,
     val favoriteId: Set<Int> = emptySet(),
     val scrollPosition: Int = 0,
-    val noInternetPaging: Boolean = false
+    val noInternetPaging: Boolean = false,
+    val scrollToTopTrigger: Int = 0
 ) {
     val isEmptyState get() = movieList.isEmpty() && !isLoading && searchQuery.isNotEmpty()
 }
