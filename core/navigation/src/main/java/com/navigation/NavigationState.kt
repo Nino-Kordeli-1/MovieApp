@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
@@ -25,7 +26,12 @@ fun rememberNavigationState(
 ): NavigationState {
     val allTopLevelKeys = topLevelKeys + startKey
     val topLevelStack = rememberNavBackStack(startKey)
-    val subStacks = allTopLevelKeys.associateWith { key -> rememberNavBackStack(key) }
+
+    val subStacks = allTopLevelKeys.associateWith { key ->
+        key(key) {
+            rememberNavBackStack(key)
+        }
+    }
 
     return remember(startKey, allTopLevelKeys) {
         NavigationState(
@@ -69,16 +75,19 @@ class NavigationState(
 fun NavigationState.toEntries(
     entryProvider: (NavKey) -> NavEntry<NavKey>,
 ): SnapshotStateList<NavEntry<NavKey>> {
-    val decoratedEntries = subStacks.mapValues { (_, stack) ->
-        val decorators = listOf(
-            rememberSaveableStateHolderNavEntryDecorator<NavKey>(),
-            rememberViewModelStoreNavEntryDecorator<NavKey>(),
-        )
-        rememberDecoratedNavEntries(
-            backStack = stack,
-            entryDecorators = decorators,
-            entryProvider = entryProvider,
-        )
+    val decoratedEntries = subStacks.mapValues { (topLevelKey, stack) ->
+        key(topLevelKey) {
+            val decorators = listOf(
+                rememberSaveableStateHolderNavEntryDecorator<NavKey>(),
+                rememberViewModelStoreNavEntryDecorator<NavKey>(),
+            )
+
+            rememberDecoratedNavEntries(
+                backStack = stack,
+                entryDecorators = decorators,
+                entryProvider = entryProvider,
+            )
+        }
     }
 
     return topLevelStack
