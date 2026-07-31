@@ -1,14 +1,16 @@
 package com.impl.screen.favorites.vm
 
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.api.navigation.DetailsNavKey
 import com.common.resource.NetworkResult
-import com.domain.model.MovieResponse
 import com.domain.usecase.GetFavoriteUseCase
 import com.domain.usecase.GetGenresUseCase
 import com.domain.usecase.RemoveFavoriteUseCase
 import com.impl.screen.favorites.contract.FavoritesUiEvent
-import com.impl.screen.favorites.contract.FavoritesUiSideEffect
 import com.impl.screen.favorites.contract.FavoritesUiState
 import com.impl.screen.favorites.mapper.MovieUiMapper
 import com.impl.screen.favorites.mapper.MovieUiMapperInput
@@ -21,10 +23,9 @@ class FavoritesViewModel(
     private val getGenresUseCase: GetGenresUseCase,
     private val removeFavoriteUseCase: RemoveFavoriteUseCase,
     private val movieUiMapper: MovieUiMapper
-) : BaseViewModel<FavoritesUiState, FavoritesUiEvent, FavoritesUiSideEffect>(
+) : BaseViewModel<FavoritesUiState, FavoritesUiEvent, Nothing>(
     FavoritesUiState()
 ) {
-    private var movies: List<MovieResponse> = emptyList()
 
     init {
         observeGenres()
@@ -48,7 +49,7 @@ class FavoritesViewModel(
     private fun observeFavorites() {
         viewModelScope.launch {
             getFavoriteUseCase().collect { favorites ->
-                movies = favorites
+                state.value.movies = favorites
                 updateFavoritesList()
             }
         }
@@ -82,9 +83,9 @@ class FavoritesViewModel(
             it.copy(
                 favorites = movieUiMapper.map(
                     MovieUiMapperInput(
-                        movies = movies,
+                        movies = state.value.movies,
                         genres = it.genreList,
-                        favoriteIds = movies.map { movie -> movie.id }.toSet()
+                        favoriteIds = state.value.movies.map { movie -> movie.id }.toSet()
                     )
                 )
             )
