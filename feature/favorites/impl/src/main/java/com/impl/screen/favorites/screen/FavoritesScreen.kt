@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,7 +22,6 @@ import com.ui.components.movie_grid.MovieGrid
 @Composable
 fun FavoritesScreen(viewModel: FavoritesViewModel) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val gridState = rememberLazyGridState()
 
     if (state.isLoading && state.favorites.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -50,7 +48,7 @@ fun FavoritesScreen(viewModel: FavoritesViewModel) {
         MovieGrid(
             title = null,
             isLoading = false,
-            gridState = gridState,
+            gridState = state.gridState,
             movies = state.favorites,
             onMovieClick = { movieId ->
                 viewModel.onEvent(

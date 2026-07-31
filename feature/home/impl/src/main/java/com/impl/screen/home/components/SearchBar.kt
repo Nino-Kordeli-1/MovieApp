@@ -1,7 +1,6 @@
 package com.impl.screen.home.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +23,7 @@ import com.designsystem.theme.Neutral02DarkestGrey
 import com.designsystem.theme.Neutral05LightGrey
 import com.designsystem.theme.Neutral08Whisper
 import com.movieapp.impl.home.R
+import com.ui.components.delay_click.safeClick
 
 @Composable
 fun SearchBar(
@@ -79,7 +79,7 @@ fun SearchBar(
             if (query.isNotEmpty()) {
                 Icon(
                     modifier = Modifier
-                        .clickable {
+                        .safeClick {
                             onDeleteClick()
                         }
                         .padding(start = Spacing.spacing_12),

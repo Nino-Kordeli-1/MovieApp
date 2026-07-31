@@ -38,7 +38,6 @@ class HomeViewModel(
 ) : BaseViewModel<HomeUiState, HomeUiEvent, HomeUiSideEffect>(
     HomeUiState()
 ) {
-
     init {
         observeNetwork()
         observeFavorites()
@@ -237,6 +236,7 @@ class HomeViewModel(
 
         updateState {
             it.copy(
+                isConnected = true,
                 isLoading = false,
                 hasMorePages = newMovies.isNotEmpty(),
                 movieList = movieUiMapper.map(
@@ -271,7 +271,8 @@ class HomeViewModel(
         updateState {
             it.copy(
                 isLoading = false,
-                error = message
+                error = message,
+                isConnected = false
             )
         }
         emitSideEffect(ShowError(message))
@@ -362,10 +363,8 @@ class HomeViewModel(
         }
     }
 
-    fun onMovieClick(movieId: Int) {
-        state.value.lastMovieClickTime = launchSingleClick(state.value.lastMovieClickTime) {
-            navigate(NavCommand.Navigate(DetailsNavKey(movieId)))
-        }
+    private fun onMovieClick(movieId: Int) {
+        navigate(NavCommand.Navigate(DetailsNavKey(movieId)))
     }
 
     private fun onFavoriteClick(movie: MovieUiModel) {
@@ -423,7 +422,7 @@ class HomeViewModel(
                 isGenreListVisible = if (isActive) false else it.isGenreListVisible
             )
         }
-        state.value.searchJob?.cancel()
+        updateState { it.copy(scrollToTopTrigger = it.scrollToTopTrigger + 1) }
 
         if (query.isEmpty()) {
             state.value.movies = emptyList()
@@ -544,7 +543,7 @@ class HomeViewModel(
     }
 
     private fun retryClicked() {
-        if (state.value.isConnected) {
+        if (state.value.isConnected == true) {
             updateState { it.copy(isConnected = true) }
             observeFavorites()
             observeGenres()
