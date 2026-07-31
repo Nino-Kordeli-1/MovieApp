@@ -50,21 +50,6 @@ abstract class BaseViewModel<State, Event, SideEffect>(
         }
     }
 
-    protected fun launchSingleClick(
-        lastClickTime: Long,
-        interval: Long = 500,
-        block: () -> Unit
-    ): Long {
-        val now = System.currentTimeMillis()
-
-        if (now - lastClickTime >= interval) {
-            block()
-            return now
-        }
-
-        return lastClickTime
-    }
-
     protected fun navigate(command: NavCommand) {
         viewModelScope.launch {
             _navigationCommands.emit(command)
