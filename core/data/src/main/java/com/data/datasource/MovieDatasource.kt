@@ -1,6 +1,6 @@
 package com.data.datasource
 
-import com.data.dto.movie.MovieDto
+import com.data.dto.movie.MovieDetailsDto
 import com.data.dto.movie.MovieResponseDto
 import retrofit2.Response
 
@@ -9,5 +9,5 @@ interface MovieDatasource {
         page: Int
     ): Response<MovieResponseDto>
 
-    suspend fun getMovieById(movieId: Int): Response<MovieDto>
+    suspend fun getMovieById(movieId: Int): Response<MovieDetailsDto>
 }
