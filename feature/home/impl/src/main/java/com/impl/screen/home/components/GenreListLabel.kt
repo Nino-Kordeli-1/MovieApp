@@ -2,7 +2,6 @@ package com.impl.screen.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +20,7 @@ import com.designsystem.theme.Neutral08Whisper
 import com.designsystem.theme.Typography
 import com.designsystem.theme.YellowPrimary
 import com.movieapp.impl.home.R
+import com.ui.components.delay_click.safeClick
 
 @Composable
 fun GenreListLabel(
@@ -31,7 +31,7 @@ fun GenreListLabel(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() }) {
+            .safeClick { onClick() }) {
         Text(
             style = Typography.labelSmall,
             text = title,
