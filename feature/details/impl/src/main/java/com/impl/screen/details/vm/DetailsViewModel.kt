@@ -2,8 +2,6 @@ package com.impl.screen.details.vm
 
 import androidx.lifecycle.viewModelScope
 import com.common.resource.NetworkResult
-import com.domain.model.GenreResponse
-import com.domain.model.MovieDetails
 import com.domain.model.MovieResponse
 import com.domain.usecase.AddFavoriteUseCase
 import com.domain.usecase.GetGenresUseCase
@@ -28,11 +26,6 @@ class DetailsViewModel(
     private val getGenresUseCase: GetGenresUseCase,
     private val movieDetailsUiMapper: MovieDetailsUiMapper
 ) : BaseViewModel<DetailsUiState, DetailsUiEvent, Nothing>(DetailsUiState()) {
-
-    private var currentMovie: MovieDetails? = null
-
-    private var lastBackClickTime = 0L
-    private var genres = emptyList<GenreResponse>()
 
     init {
         loadData()
@@ -60,7 +53,7 @@ class DetailsViewModel(
                     }
 
                     is NetworkResult.Success -> {
-                        currentMovie = result.data
+                        state.value.currentMovie = result.data
 
                         val isFavorite = isFavoriteUseCase(movieId).first()
                         val movieUi = movieDetailsUiMapper.map(
@@ -95,7 +88,7 @@ class DetailsViewModel(
 
     private fun toggleFavorite() {
         viewModelScope.launch {
-            val movie = currentMovie ?: return@launch
+            val movie = state.value.currentMovie ?: return@launch
             val isFavorite = isFavoriteUseCase(movieId).first()
             if (isFavorite) {
                 removeFavoriteUseCase(movieId)
@@ -138,7 +131,7 @@ class DetailsViewModel(
 
                     is NetworkResult.Success -> {
                         if (result.data.isEmpty()) return@collect
-                        genres = result.data
+                        state.value.genres = result.data
                         loadMovie()
                         return@collect
                     }
@@ -147,9 +140,7 @@ class DetailsViewModel(
         }
     }
 
-    fun onBackClick() {
-        lastBackClickTime = launchSingleClick(lastBackClickTime) {
-            navigate(NavCommand.Back)
-        }
+    private fun onBackClick() {
+        navigate(NavCommand.Back)
     }
 }
