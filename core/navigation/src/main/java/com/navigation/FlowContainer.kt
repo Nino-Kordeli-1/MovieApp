@@ -13,7 +13,7 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.ui.NavDisplay
 
-private const val ANIM_DURATION = 300
+private const val ANIM_DURATION = 100
 
 private fun forwardTransition(): ContentTransform =
     (slideInHorizontally(tween(ANIM_DURATION)) { it } + fadeIn(tween(ANIM_DURATION)))

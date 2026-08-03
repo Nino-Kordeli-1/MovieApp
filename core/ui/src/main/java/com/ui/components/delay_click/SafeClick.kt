@@ -20,7 +20,7 @@ fun Modifier.safeClick(
 }
 
 fun safeClick(
-    debounceTime: Long = 500L,
+    debounceTime: Long = 250L,
     onClick: () -> Unit
 ): () -> Unit = {
     val now = System.currentTimeMillis()
