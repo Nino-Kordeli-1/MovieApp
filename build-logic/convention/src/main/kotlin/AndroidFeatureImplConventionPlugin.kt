@@ -1,37 +1,39 @@
 import com.android.build.api.dsl.LibraryExtension
-import com.movieapp.libs
+import com.extensions.CORE_COMMON_MODULE
+import com.extensions.CORE_DESIGN_SYSTEM_MODULE
+import com.extensions.CORE_DOMAIN_MODULE
+import com.extensions.CORE_UI_MODULE
+import com.extensions.implementationLibrary
+import com.extensions.implementationModule
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 
 class AndroidFeatureImplConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        with(target){
+        with(target) {
             apply(plugin = "movieapp.android.library")
             apply(plugin = "movieapp.koin.library")
             apply(plugin = "movieapp.android.compose")
 
-
-            extensions.configure<LibraryExtension>{
+            extensions.configure<LibraryExtension> {
                 testOptions.animationsDisabled = true
             }
 
-            dependencies{
-                "implementation"(project(":core:ui"))
-                "implementation"(project(":core:designsystem"))
-                "implementation"(project(":core:common"))
-                "implementation"(project(":core:domain"))
-                "implementation"(libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
-                "implementation"(libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
-                "implementation"(libs.findLibrary("androidx.navigation3.runtime").get())
-                "implementation"(libs.findLibrary("androidx-lifecycle-viewModel-navigation3").get())
-                "implementation"(libs.findLibrary("androidx.tracing.ktx").get())
-                "implementation"(libs.findLibrary("koin-android").get())
-                "implementation"(libs.findLibrary("koin-compose").get())
-                "implementation"(libs.findLibrary("coil-compose").get())
-            }
+            implementationModule(CORE_COMMON_MODULE)
+            implementationModule(CORE_DESIGN_SYSTEM_MODULE)
+            implementationModule(CORE_UI_MODULE)
+            implementationModule(CORE_DOMAIN_MODULE)
+
+            implementationLibrary("androidx.lifecycle.runtimeCompose")
+            implementationLibrary("androidx.lifecycle.viewModelCompose")
+            implementationLibrary("androidx.navigation3.runtime")
+            implementationLibrary("androidx-lifecycle-viewModel-navigation3")
+            implementationLibrary("androidx.tracing.ktx")
+            implementationLibrary("koin-android")
+            implementationLibrary("koin-compose")
+            implementationLibrary("coil-compose")
         }
     }
 }
