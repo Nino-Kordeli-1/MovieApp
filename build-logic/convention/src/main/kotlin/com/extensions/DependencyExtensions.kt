@@ -31,3 +31,7 @@ fun Project.testImplementationLibrary(alias: String) {
 fun Project.androidTestImplementationLibrary(alias: String) {
     dependencies.add(ANDROID_TEST_IMPLEMENTATION, libs.findLibrary(alias).get())
 }
+
+fun Project.debugImplementationLibrary(alias: String) {
+    dependencies.add("debugImplementation", libs.findLibrary(alias).get())
+}
