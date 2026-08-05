@@ -1,5 +1,9 @@
 package com.impl.screen.favorites.vm
 
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.api.navigation.DetailsNavKey
 import com.common.resource.NetworkResult
@@ -22,6 +26,8 @@ class FavoritesViewModel(
 ) : BaseViewModel<FavoritesUiState, FavoritesUiEvent, Nothing>(
     FavoritesUiState()
 ) {
+    var gridState: LazyGridState by mutableStateOf(LazyGridState(0, 0))
+        private set
 
     init {
         observeGenres()

@@ -48,7 +48,7 @@ fun FavoritesScreen(viewModel: FavoritesViewModel) {
         MovieGrid(
             title = null,
             isLoading = false,
-            gridState = state.gridState,
+            gridState =viewModel.gridState,
             movies = state.favorites,
             onMovieClick = { movieId ->
                 viewModel.onEvent(
