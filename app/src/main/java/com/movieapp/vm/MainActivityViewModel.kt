@@ -13,7 +13,12 @@ class MainActivityViewModel(
     init {
         viewModelScope.launch {
             connectivityObserver.observe().collect { isConnected ->
-                updateState { it.copy(isConnected = isConnected) }
+                updateState {
+                    it.copy(
+                        isConnected = isConnected,
+                        hasBeenOnline = it.hasBeenOnline || isConnected
+                    )
+                }
             }
         }
     }

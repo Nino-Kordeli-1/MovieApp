@@ -103,7 +103,7 @@ private fun AppNavigation(state: MainActivityUiState) {
             bottomBar = {
                 BottomBarContent(
                     navigationState = navigationState,
-                    isConnected = state.isConnected
+                    hasBeenOnline = state.hasBeenOnline
                 )
             }
         ) { padding ->
@@ -119,7 +119,7 @@ private fun AppNavigation(state: MainActivityUiState) {
 @Composable
 private fun BottomBarContent(
     navigationState: NavigationState,
-    isConnected: Boolean
+    hasBeenOnline: Boolean
 ) {
     val navigator = requireNavigator()
 
@@ -134,7 +134,7 @@ private fun BottomBarContent(
     }
 
     AnimatedVisibility(
-        visible = currentDestination != null && isConnected,
+        visible = currentDestination != null && hasBeenOnline,
         enter = fadeIn(tween(250)),
         exit = fadeOut(tween(250))
     ) {

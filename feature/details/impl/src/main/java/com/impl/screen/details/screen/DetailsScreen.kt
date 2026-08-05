@@ -1,6 +1,7 @@
 package com.impl.screen.details.screen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,10 +31,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.designsystem.Spacing
 import com.designsystem.theme.MovieAppTheme
 import com.designsystem.theme.Neutral01Black
+import com.designsystem.theme.Neutral02DarkestGrey
 import com.designsystem.theme.Neutral06LightGrey
 import com.designsystem.theme.Neutral08Whisper
 import com.designsystem.theme.Typography
@@ -110,7 +112,7 @@ private fun DetailsScreenContent(
             }
         )
 
-        AsyncImage(
+        SubcomposeAsyncImage(
             model = "https://image.tmdb.org/t/p/w780${movie.backdropPath}",
             contentDescription = movie.title,
             modifier = Modifier
@@ -118,7 +120,18 @@ private fun DetailsScreenContent(
                 .aspectRatio(
                     ratio = 163.5f / 226f,
                 ),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            error = {
+                Image(
+                    painter = painterResource(com.movieapp.designsystem.R.drawable.ic_no_photo),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Neutral02DarkestGrey)
+                        .padding(Spacing.spacing_63),
+                    contentScale = ContentScale.Fit
+                )
+            }
         )
 
         Column(
