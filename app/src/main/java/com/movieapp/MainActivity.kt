@@ -32,6 +32,7 @@ import com.impl.navigation.homeEntry
 import com.impl.navigation.splashEntry
 import com.impl.screen.splash.screen.SplashScreen
 import com.movieapp.contract.MainActivityUiState
+import com.movieapp.navigation.toNavKey
 import com.movieapp.vm.MainActivityViewModel
 import com.navigation.BottomBarNavKey
 import com.navigation.FlowContainer

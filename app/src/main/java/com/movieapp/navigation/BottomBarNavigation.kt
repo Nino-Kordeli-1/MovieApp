@@ -1,4 +1,4 @@
-package com.movieapp
+package com.movieapp.navigation
 
 import androidx.navigation3.runtime.NavKey
 import com.api.HomeNavKey
