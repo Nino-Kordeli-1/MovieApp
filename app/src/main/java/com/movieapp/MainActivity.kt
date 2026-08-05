@@ -33,15 +33,14 @@ import com.impl.navigation.splashEntry
 import com.impl.screen.splash.screen.SplashScreen
 import com.movieapp.contract.MainActivityUiState
 import com.movieapp.vm.MainActivityViewModel
+import com.navigation.BottomBarNavKey
 import com.navigation.FlowContainer
 import com.navigation.LocalNavigator
 import com.navigation.NavigationState
 import com.navigation.Navigator
 import com.navigation.rememberNavigationState
 import com.navigation.requireNavigator
-import com.navigation.shouldShowBottomBar
 import com.navigation.toEntries
-import com.ui.components.bottom_bar.BottomBarDestinations
 import com.ui.components.bottom_bar.NavigationBar
 import org.koin.androidx.compose.koinViewModel
 
@@ -124,11 +123,7 @@ private fun BottomBarContent(
 ) {
     val navigator = requireNavigator()
 
-    val currentDestination = when (navigationState.currentKey) {
-        is HomeNavKey -> BottomBarDestinations.Home
-        is FavoritesNavKey -> BottomBarDestinations.Favorites
-        else -> null
-    }
+    val currentDestination = (navigationState.currentKey as? BottomBarNavKey)?.bottomBarDestination
 
     var lastDestination by remember {
         mutableStateOf(currentDestination)
@@ -139,22 +134,14 @@ private fun BottomBarContent(
     }
 
     AnimatedVisibility(
-        visible = navigationState.currentKey.shouldShowBottomBar && isConnected,
+        visible = currentDestination != null && isConnected,
         enter = fadeIn(tween(250)),
         exit = fadeOut(tween(250))
     ) {
         lastDestination?.let { destination ->
             NavigationBar(
                 currentDestination = destination,
-                navigator = { target ->
-                    when (target) {
-                        BottomBarDestinations.Home ->
-                            navigator.navigate(HomeNavKey)
-
-                        BottomBarDestinations.Favorites ->
-                            navigator.navigate(FavoritesNavKey)
-                    }
-                }
+                navigator = { target -> navigator.navigate(target.toNavKey()) }
             )
         }
     }

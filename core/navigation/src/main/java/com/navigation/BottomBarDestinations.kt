@@ -1,4 +1,4 @@
-package com.ui.components.bottom_bar
+package com.navigation
 
 enum class BottomBarDestinations {
     Home,

@@ -24,6 +24,7 @@ import com.designsystem.Spacing
 import com.designsystem.theme.Neutral02DarkestGrey
 import com.designsystem.theme.YellowPrimary
 import com.movieapp.designsystem.R
+import com.navigation.BottomBarDestinations
 import com.ui.components.delay_click.safeClick
 
 @Composable
