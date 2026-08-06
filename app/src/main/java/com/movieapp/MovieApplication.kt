@@ -8,6 +8,7 @@ import com.impl.di.detailsModule
 import com.impl.di.homeModule
 import com.impl.screen.favorites.di.favoritesModule
 import com.impl.screen.splash.module.splashModule
+import com.movieapp.di.MainActivityModule
 import com.movieapp.di.databaseModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
@@ -26,7 +27,8 @@ class MovieApplication : Application() {
                     dataModule,
                     favoritesModule,
                     detailsModule,
-                    observerModule
+                    observerModule,
+                    MainActivityModule
                 )
             )
         }

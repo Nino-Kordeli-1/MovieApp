@@ -15,6 +15,7 @@ dependencies {
     api(projects.core.domain)
     api(projects.core.network)
     api(projects.core.database)
+    api(projects.core.model)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.retrofit)

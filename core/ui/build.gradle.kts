@@ -10,6 +10,7 @@ android {
 dependencies {
     api(projects.core.designsystem)
     api(projects.core.model)
+    implementation(projects.core.navigation)
 
     implementation(libs.coil)
     implementation(libs.coil.compose)

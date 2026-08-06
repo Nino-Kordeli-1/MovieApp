@@ -30,6 +30,7 @@ import com.designsystem.theme.Neutral08Whisper
 import com.designsystem.theme.NeutralGrey04Grey
 import com.designsystem.theme.YellowPrimary
 import com.movieapp.designsystem.R
+import com.ui.components.delay_click.safeClick
 import com.ui.components.label.CategoryLabel
 
 @Composable
@@ -49,6 +50,7 @@ fun MovieCard(
     ) {
 
         Card(
+            modifier = Modifier.safeClick{ onClick() },
             shape = RoundedCornerShape(Spacing.spacing_16)
         ) {
             Box {
@@ -112,7 +114,7 @@ fun MovieCard(
                 onClick = onFavoriteClick
             )
         }
-        Row() {
+        Row {
             Text(
                 style = MaterialTheme.typography.bodySmall,
                 text = releaseDate.take(4),
@@ -134,14 +136,15 @@ fun FavoriteButton(
     Icon(
         painter = painterResource(
             if (selected)
-                R.drawable.ic_filled_heart
+                R.drawable.ic_filled_heart_small
             else
                 R.drawable.ic_outlined_heart
         ),
-        contentDescription = "Favorite",
+        contentDescription = null,
         tint = YellowPrimary,
         modifier = Modifier
             .padding(top = Spacing.spacing_4, end = Spacing.spacing_4)
+            .safeClick(onClick = onClick)
     )
 }
 

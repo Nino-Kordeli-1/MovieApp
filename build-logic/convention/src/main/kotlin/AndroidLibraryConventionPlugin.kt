@@ -1,12 +1,13 @@
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import com.extensions.androidTestImplementationLibrary
+import com.extensions.implementationLibrary
+import com.extensions.testImplementationLibrary
 import com.movieapp.configureKotlinAndroid
-import com.movieapp.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -27,14 +28,11 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                     it.androidTest.enable = false
                 }
             }
-
-            dependencies {
-                "androidTestImplementation"(libs.findLibrary("kotlin.test").get())
-                "testImplementation"(libs.findLibrary("kotlin.test").get())
-                "testImplementation"(libs.findLibrary("junit").get())
-                "implementation"(libs.findLibrary("androidx.tracing.ktx").get())
-                "testImplementation"(libs.findLibrary("turbine").get())
-            }
+            androidTestImplementationLibrary("kotlin.test")
+            testImplementationLibrary("kotlin.test")
+            testImplementationLibrary("junit")
+            implementationLibrary("androidx.tracing.ktx")
+            testImplementationLibrary("turbine")
         }
     }
 }

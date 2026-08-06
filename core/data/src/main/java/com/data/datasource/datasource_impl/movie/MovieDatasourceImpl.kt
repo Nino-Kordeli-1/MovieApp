@@ -1,7 +1,7 @@
 package com.data.datasource.datasource_impl.movie
 
 import com.data.datasource.MovieDatasource
-import com.data.dto.movie.MovieDto
+import com.data.dto.movie.MovieDetailsDto
 import com.data.dto.movie.MovieResponseDto
 import com.data.remote.PopularMovieApi
 import retrofit2.Response
@@ -17,7 +17,7 @@ class MovieDatasourceImpl(
 
     override suspend fun getMovieById(
         movieId: Int
-    ): Response<MovieDto> {
+    ): Response<MovieDetailsDto> {
         return api.getMovieById(movieId)
     }
 }

@@ -7,11 +7,10 @@ class Converters {
     fun fromGenreIds(value: List<Int>): String =
         value.joinToString(",")
 
-
     @TypeConverter
     fun toGenreIds(value: String): List<Int> =
         if (value.isBlank()) {
-            emptyList<Int>()
+            emptyList()
         } else {
             value.split(",").map { it.toInt() }
         }

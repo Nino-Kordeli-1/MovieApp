@@ -1,11 +1,10 @@
 import com.android.build.api.dsl.ApplicationExtension
+import com.extensions.implementationLibrary
 import com.movieapp.configureKotlinAndroid
-import com.movieapp.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -17,9 +16,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 defaultConfig.targetSdk = 36
                 testOptions.animationsDisabled = true
             }
-            dependencies {
-                add("implementation", libs.findLibrary("koin.android").get())
-            }
+            implementationLibrary("koin.android")
         }
     }
 }

@@ -1,15 +1,15 @@
 package com.data.dto.movie
 
-import android.annotation.SuppressLint
+import com.data.dto.genre.GenreResponseDto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class MovieResponseDto(
-    val page:Int,
-    val results:List<MovieDto>,
+    val page: Int,
+    val results: List<MovieDto>,
     @SerialName("total_pages")
-    val totalPages:Int,
+    val totalPages: Int,
     @SerialName("total_results")
     val totalResults: Int
 )
@@ -18,9 +18,10 @@ data class MovieResponseDto(
 data class MovieDto(
     val adult: Boolean,
     @SerialName("backdrop_path")
-    val backdropPath: String? = null,
+    val backdropPath: String?,
     @SerialName("genre_ids")
     val genreIds: List<Int> = emptyList(),
+    val genres: List<GenreResponseDto> = emptyList(),
     val id: Int,
     @SerialName("original_language")
     val originalLanguage: String,
@@ -29,7 +30,7 @@ data class MovieDto(
     val overview: String,
     val popularity: Double,
     @SerialName("poster_path")
-    val posterPath: String? = null,
+    val posterPath: String?,
     @SerialName("release_date")
     val releaseDate: String,
     val title: String,

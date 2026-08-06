@@ -24,6 +24,8 @@ import com.designsystem.Spacing
 import com.designsystem.theme.Neutral02DarkestGrey
 import com.designsystem.theme.YellowPrimary
 import com.movieapp.designsystem.R
+import com.navigation.BottomBarDestinations
+import com.ui.components.delay_click.safeClick
 
 @Composable
 fun NavigationBar(
@@ -48,14 +50,14 @@ fun NavigationBar(
                 .heightIn(Spacing.spacing_38),
             label = stringResource(com.movieapp.ui.R.string.core_ui_home),
             selected = currentDestination == BottomBarDestinations.Home,
-            onClick = { navigator.onNavigate(BottomBarDestinations.Home) },
+            onClick = safeClick { navigator.onNavigate(BottomBarDestinations.Home) },
             iconRes = R.drawable.ic_home
         )
         NavButtons(
             modifier = Modifier.weight(1f),
             label = stringResource(com.movieapp.ui.R.string.core_ui_favorites),
             selected = currentDestination == BottomBarDestinations.Favorites,
-            onClick = { navigator.onNavigate(BottomBarDestinations.Favorites) },
+            onClick = safeClick { navigator.onNavigate(BottomBarDestinations.Favorites) },
             iconRes = R.drawable.ic_outlined_heart
         )
     }

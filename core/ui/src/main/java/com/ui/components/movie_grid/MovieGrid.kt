@@ -20,12 +20,14 @@ import com.designsystem.Spacing
 import com.designsystem.theme.Typography
 import com.designsystem.theme.YellowPrimary
 import com.model.MovieUiModel
+import com.ui.components.banner.OfflineBanner
 import com.ui.components.movie_card.MovieCard
 
 @Composable
 fun MovieGrid(
     title: String? = null,
     isLoading: Boolean = false,
+    isOffline:Boolean = false,
     gridState: LazyGridState,
     movies: List<MovieUiModel>,
     onMovieClick: (movieId: Int) -> Unit,
@@ -39,7 +41,7 @@ fun MovieGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(
             top = if (title != null) {
-                Spacing.spacing_63
+                Spacing.spacing_12
             } else {
                 Spacing.spacing_16
             },
@@ -78,6 +80,12 @@ fun MovieGrid(
                     onMovieClick(movie.id)
                 }
             )
+        }
+
+        if(isOffline){
+            item(span = { GridItemSpan(2) }) {
+                OfflineBanner()
+            }
         }
 
         if (isLoading && movies.isNotEmpty()) {
