@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -11,9 +12,6 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
-}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -22,6 +20,31 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Movie App"
+rootProject.name = "MovieApp"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":app")
- 
+
+//Core
+include(":core:model")
+include(":core:domain")
+include(":core:common")
+include(":core:data")
+include(":core:navigation")
+include(":core:designsystem")
+include(":core:ui")
+include(":core:network")
+include(":core:database")
+
+//Feature
+include(":feature:home:api")
+include(":feature:home:impl")
+
+include(":feature:details:api")
+include(":feature:details:impl")
+
+include(":feature:favorites:impl")
+include(":feature:favorites:api")
+
+include(":feature:splash:impl")
+include(":feature:splash:api")

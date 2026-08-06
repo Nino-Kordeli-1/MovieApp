@@ -1,56 +1,49 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.movieapp.android.application)
+    alias(libs.plugins.movieapp.android.compose)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.example.movieapp"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
-
+    namespace = "com.movieapp"
     defaultConfig {
-        applicationId = "com.example.movieapp"
-        minSdk = 24
-        targetSdk = 36
+        applicationId = "com.movieapp"
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    buildFeatures {
-        compose = true
     }
 }
 
 dependencies {
-    implementation(platform(libs.androidx.compose.bom))
+    implementation(projects.feature.home.api)
+    implementation(projects.feature.home.impl)
+    implementation(projects.feature.splash.api)
+    implementation(projects.feature.splash.impl)
+    implementation(projects.feature.favorites.api)
+    implementation(projects.feature.favorites.impl)
+    implementation(projects.feature.details.api)
+    implementation(projects.feature.details.impl)
+    implementation(projects.core.database)
+    // Core modules
+    implementation(projects.core.common)
+    implementation(projects.core.ui)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.data)
+    implementation(projects.core.model)
+
+    // AndroidX + Compose
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.material)
+    implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    testImplementation(libs.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.junit)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
-    debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.koin.compose)
+
+    //Serialization
+    implementation(libs.kotlinx.serialization.json)
 }

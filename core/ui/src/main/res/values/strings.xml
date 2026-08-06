@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="core_ui_refresh">Refresh</string>
+    <string name="core_ui_favorites">Favorites</string>
+    <string name="core_ui_home">Home</string>
+    <string name="core_ui_check_your_internet_connection">Check your internet connection</string>
+</resources>
